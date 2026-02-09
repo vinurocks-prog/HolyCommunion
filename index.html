@@ -12,6 +12,7 @@
 
   <style>
     :root{
+      /* Dark luxe theme */
       --bg:#070a12;
       --text:#eef2ff;
       --muted: rgba(238,242,255,.72);
@@ -19,6 +20,8 @@
       --gold:#d9b65b;
       --gold2:#f3e3b2;
       --accent:#7dd3fc;
+      --leaf: rgba(125,170,140,.18);     /* soft greenery */
+      --flower: rgba(217,182,91,.20);    /* gold floral line */
     }
     *{box-sizing:border-box}
     body{
@@ -34,41 +37,79 @@
       display:flex;
       justify-content:center;
     }
-    .wrap{width:min(1040px, 100%)}
+    .wrap{width:min(1040px, 100%); position:relative; isolation:isolate;}
 
-    /* HERO (mobile first) */
+    /* Botanical overlays (subtle, premium) */
+    .wrap::before,
+    .wrap::after{
+      content:"";
+      position:fixed;
+      width:320px;
+      height:320px;
+      background-repeat:no-repeat;
+      background-size:contain;
+      pointer-events:none;
+      z-index:-1;
+      opacity:.85;
+      filter: blur(.2px);
+    }
+
+    /* Top-left leaves */
+    .wrap::before{
+      top:-60px;
+      left:-70px;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%237daa8c' stroke-opacity='.55' stroke-width='2'%3E%3Cpath d='M40 190c35-85 120-135 200-140-18 95-75 170-170 205'/%3E%3Cpath d='M70 205c24-60 78-105 148-125'/%3E%3Cpath d='M95 185c18-45 55-78 108-95'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* Bottom-right florals */
+    .wrap::after{
+      bottom:-70px;
+      right:-70px;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%23d9b65b' stroke-opacity='.55' stroke-width='1.8'%3E%3Ccircle cx='150' cy='130' r='22'/%3E%3Cpath d='M150 82c6-18 20-30 40-34-6 20-18 34-38 42'/%3E%3Cpath d='M150 178c-6 18-20 30-40 34 6-20 18-34 38-42'/%3E%3Cpath d='M122 130c-18-6-30-20-34-40 20 6 34 18 42 38'/%3E%3Cpath d='M178 130c18 6 30 20 34 40-20-6-34-18-42-38'/%3E%3Cpath d='M110 92l-20-20M190 168l20 20M110 168l-20 20M190 92l20-20'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* HERO */
     .hero{
       position:relative;
       border-radius:22px;
       overflow:hidden;
-      border:1px solid var(--stroke);
+      border:1px solid rgba(255,255,255,.12);
       box-shadow: 0 30px 90px rgba(0,0,0,.45);
       margin-bottom:16px;
+      background: rgba(255,255,255,.04);
     }
-    .hero::before{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        linear-gradient(90deg, rgba(7,10,18,.92), rgba(7,10,18,.55) 55%, rgba(7,10,18,.92)),
-        url("https://images.unsplash.com/photo-1753825954183-82800b0dc77e?auto=format&fit=crop&fm=jpg&q=70&w=2400") center/cover no-repeat;
-      filter:saturate(1.05) contrast(1.05);
-      transform:scale(1.03);
-    }
+    /* subtle arch + floral pattern */
     .hero::after{
       content:"";
       position:absolute; inset:0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520' viewBox='0 0 520 520'%3E%3Cg fill='none' stroke='%23f3e3b2' stroke-opacity='.18'%3E%3Cpath d='M78 110c40 10 70 44 80 90-46-10-80-40-90-80z'/%3E%3Cpath d='M160 86c20 34 20 78-2 118-34-20-52-58-46-96z'/%3E%3Cpath d='M420 420c-44-10-78-44-88-92 48 12 82 44 92 88z'/%3E%3Ccircle cx='260' cy='260' r='86'/%3E%3Cpath d='M260 174c18 24 18 56 0 80-18-24-18-56 0-80z'/%3E%3Cpath d='M174 260c24-18 56-18 80 0-24 18-56 18-80 0z'/%3E%3Cpath d='M260 346c-18-24-18-56 0-80 18 24 18 56 0 80z'/%3E%3Cpath d='M346 260c-24 18-56 18-80 0 24-18 56-18 80 0z'/%3E%3C/g%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520' viewBox='0 0 520 520'%3E%3Cg fill='none' stroke='%23f3e3b2' stroke-opacity='.15'%3E%3Cpath d='M78 110c40 10 70 44 80 90-46-10-80-40-90-80z'/%3E%3Cpath d='M160 86c20 34 20 78-2 118-34-20-52-58-46-96z'/%3E%3Cpath d='M420 420c-44-10-78-44-88-92 48 12 82 44 92 88z'/%3E%3Ccircle cx='260' cy='260' r='86'/%3E%3Cpath d='M260 174c18 24 18 56 0 80-18-24-18-56 0-80z'/%3E%3Cpath d='M174 260c24-18 56-18 80 0-24 18-56 18-80 0z'/%3E%3Cpath d='M260 346c-18-24-18-56 0-80 18 24 18 56 0 80z'/%3E%3Cpath d='M346 260c-24 18-56 18-80 0 24-18 56-18 80 0z'/%3E%3C/g%3E%3C/svg%3E");
       background-size: 520px 520px;
-      opacity:.35;
+      opacity:.45;
       pointer-events:none;
       mix-blend-mode: overlay;
     }
+    /* arch glow */
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-60px -80px auto -80px;
+      height:240px;
+      background:
+        radial-gradient(260px 160px at 25% 40%, rgba(125,170,140,.18), transparent 60%),
+        radial-gradient(240px 160px at 75% 35%, rgba(217,182,91,.18), transparent 62%),
+        radial-gradient(320px 220px at 55% 0%, rgba(125,170,140,.10), transparent 62%);
+      pointer-events:none;
+    }
+
     .hero-inner{
       position:relative;
       padding: 18px 16px;
       display:grid;
       grid-template-columns: 1fr;
       gap:14px;
+      z-index:1;
     }
 
     .badge{
@@ -97,6 +138,14 @@
       line-height:1.6;
       max-width: 62ch;
     }
+    .gold-divider{
+      margin-top:12px;
+      width:90px;
+      height:3px;
+      border-radius:999px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
     .hero-card{
       border-radius:18px;
       border:1px solid rgba(255,255,255,.14);
@@ -178,14 +227,13 @@
       background: rgba(0,0,0,.22);
       color: var(--text);
       outline:none;
-      font-size:16px;
-      transition: opacity .15s ease, filter .15s ease;
+      font-size:16px; /* prevents iOS zoom */
+      transition: opacity .15s ease, filter .15s ease, box-shadow .15s ease;
     }
     input:focus, select:focus{
       border-color: rgba(217,182,91,.55);
       box-shadow: 0 0 0 4px rgba(217,182,91,.10);
     }
-    /* Visual cue when disabled */
     input:disabled{
       opacity:.55;
       filter:saturate(.7);
@@ -210,8 +258,15 @@
       font-size:15px;
       width:100%;
     }
-    .btn{background: linear-gradient(180deg, rgba(217,182,91,1), rgba(217,182,91,.88)); color:#1a1406;}
-    .ghost{background: rgba(255,255,255,.06); color: var(--text); border:1px solid rgba(255,255,255,.14);}
+    .btn{
+      background: linear-gradient(180deg, rgba(217,182,91,1), rgba(217,182,91,.88));
+      color:#1a1406;
+    }
+    .ghost{
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border:1px solid rgba(255,255,255,.14);
+    }
 
     .note{font-size:12px; color: var(--muted); margin:8px 0 0}
     .msg{
@@ -251,45 +306,16 @@
       font-size:13px;
     }
 
-    /* gallery - horizontal scroll on mobile */
-    .gallery{
-      display:flex;
-      gap:12px;
-      overflow:auto;
-      padding: 12px 2px 2px;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-    }
-    .gimg{
-      flex: 0 0 78%;
-      scroll-snap-align: start;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.10);
-      overflow:hidden;
-      position:relative;
-      background: rgba(255,255,255,.04);
-      aspect-ratio: 4 / 3;
-    }
-    .gimg img{
-      width:100%; height:100%;
-      object-fit:cover;
-      display:block;
-      transform:scale(1.02);
-      filter:saturate(1.05) contrast(1.03);
-    }
-    .gimg::after{
-      content:"";
-      position:absolute; inset:0;
-      background: linear-gradient(180deg, transparent, rgba(0,0,0,.25));
-      pointer-events:none;
-    }
-
     footer{margin:14px 0 0; text-align:center; color: rgba(169,179,199,.8); font-size:12px}
 
-    /* Upgrade to 2 columns on larger screens */
+    /* Desktop layout */
     @media (min-width: 920px){
       body{padding:22px}
-      .hero-inner{grid-template-columns: 1.1fr .9fr; padding: 26px 22px}
+      .hero-inner{
+        grid-template-columns: 1.1fr .9fr;
+        padding: 26px 22px;
+        align-items:end;
+      }
       .grid{grid-template-columns: 1.2fr .8fr}
       .content{padding:16px 18px}
       .head{padding:16px 18px}
@@ -297,8 +323,11 @@
       .actions{position:static; background:none; padding-top:0}
       button{width:auto}
       .btn{flex:1}
-      .gallery{display:grid; grid-template-columns: 1fr 1fr; overflow:visible; padding: 12px 0 0}
-      .gimg{flex:auto}
+    }
+
+    /* Reduce overlays for people who prefer less motion/visual noise */
+    @media (prefers-reduced-motion: reduce){
+      .wrap::before, .wrap::after{opacity:.55}
     }
   </style>
 </head>
@@ -313,13 +342,26 @@
           <div class="badge">✦ First Holy Communion</div>
           <h1 class="h-title">Tiara Liz Thomas</h1>
           <p class="h-sub">April 06 • A day of faith, grace, and celebration. Please RSVP below.</p>
+          <div class="gold-divider"></div>
         </div>
 
         <div class="hero-card">
           <h3>Program</h3>
           <div class="timeline">
-            <div class="titem"><div class="dot"></div><div><div class="tname">Holy Mass</div><div class="ttime">3:00 PM</div></div></div>
-            <div class="titem"><div class="dot"></div><div><div class="tname">Reception</div><div class="ttime">6:30 PM</div></div></div>
+            <div class="titem">
+              <div class="dot"></div>
+              <div>
+                <div class="tname">Holy Mass</div>
+                <div class="ttime">3:00 PM</div>
+              </div>
+            </div>
+            <div class="titem">
+              <div class="dot"></div>
+              <div>
+                <div class="tname">Reception</div>
+                <div class="ttime">6:30 PM</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -328,12 +370,20 @@
     <div class="grid">
       <!-- RSVP FORM -->
       <div class="card">
-        <div class="head"><div class="title">RSVP</div><div class="pill">Saved to Google Sheet</div></div>
-        <div class="content">
-          <form id="rsvpForm">
-            <label>Family Name / Your Name *<input name="familyName" required placeholder="e.g., Thomas" /></label>
+        <div class="head">
+          <div class="title">RSVP</div>
+          <div class="pill">Saved to Google Sheet</div>
+        </div>
 
-            <label>Attending? *
+        <div class="content">
+          <form id="rsvpForm" novalidate>
+            <label>
+              Family Name / Your Name *
+              <input name="familyName" required placeholder="e.g., Thomas" />
+            </label>
+
+            <label>
+              Attending? *
               <select name="attending" id="attending" required>
                 <option value="" selected disabled>Select…</option>
                 <option>Yes</option>
@@ -342,10 +392,13 @@
             </label>
 
             <div class="two">
-              <label>Number of Adults attending *
+              <label>
+                Number of Adults attending *
                 <input type="number" id="adults" name="adults" min="0" required value="0" />
               </label>
-              <label>Number of Kids (Below 14)
+
+              <label>
+                Number of Kids (Below 14)
                 <input type="number" id="kids" name="kids" min="0" value="0" />
               </label>
             </div>
@@ -359,16 +412,21 @@
             <div class="msg ok" id="okMsg">✅ Thanks! Your RSVP has been recorded.</div>
             <div class="msg err" id="errMsg">❌ Sorry — something went wrong. Please try again.</div>
           </form>
-
-         <!-- removed gallery from here -->
         </div>
       </div>
 
       <!-- EVENT INFO -->
       <div class="card">
-        <div class="head"><div class="title">Event Details</div><div class="pill">Locations</div></div>
+        <div class="head">
+          <div class="title">Event Details</div>
+          <div class="pill">Locations</div>
+        </div>
+
         <div class="info">
-          <div class="row"><div class="k">Date</div><div class="v">April 06</div></div>
+          <div class="row">
+            <div class="k">Date</div>
+            <div class="v">April 06</div>
+          </div>
 
           <div class="row">
             <div class="k">Church</div>
@@ -396,7 +454,10 @@
 
           <div class="row">
             <div class="k">Times</div>
-            <div class="v">Holy Mass: <b>3:00 PM</b><br/>Reception: <b>6:30 PM</b></div>
+            <div class="v">
+              Holy Mass: <b>3:00 PM</b><br/>
+              Reception: <b>6:30 PM</b>
+            </div>
           </div>
         </div>
       </div>
@@ -407,7 +468,8 @@
 
   <script>
     // Google Form endpoint
-    const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSf26EDBCCSbnyzG39YNCY3YQ8btg2r1uUcti29MCU94SLxaJA/formResponse";
+    const FORM_ACTION =
+      "https://docs.google.com/forms/d/e/1FAIpQLSf26EDBCCSbnyzG39YNCY3YQ8btg2r1uUcti29MCU94SLxaJA/formResponse";
 
     // Entry IDs (from your pre-filled link)
     const ENTRY_MAP = {
@@ -437,16 +499,15 @@
         adultsInput.disabled = false;
         kidsInput.disabled = false;
 
-        // Adults must be at least 1
+        // Adults must be at least 1 when attending
         adultsInput.min = 1;
         adultsInput.required = true;
 
-        // If it was previously 0, bump to 1
-        if (parseInt(adultsInput.value || "0", 10) < 1) {
-          adultsInput.value = 1;
-        }
+        // Ensure not 0
+        if (parseInt(adultsInput.value || "0", 10) < 1) adultsInput.value = 1;
+
       } else if (attending === "No") {
-        // Disable and reset numbers
+        // Disable & reset numbers
         adultsInput.value = 0;
         kidsInput.value = 0;
 
@@ -455,8 +516,9 @@
 
         adultsInput.required = false;
         adultsInput.min = 0;
+
       } else {
-        // No selection yet: keep enabled but allow 0 until user chooses
+        // No selection yet
         adultsInput.disabled = false;
         kidsInput.disabled = false;
         adultsInput.min = 0;
@@ -477,13 +539,19 @@
       e.preventDefault();
       hide(okMsg); hide(errMsg);
 
-      // Extra guard: if attending is Yes, adults cannot be 0
+      // Enforce rule: If attending Yes, adults must be >= 1
       if (attendingSelect.value === "Yes" && parseInt(adultsInput.value || "0", 10) < 1) {
         adultsInput.focus();
         adultsInput.setCustomValidity("Please enter at least 1 adult.");
         adultsInput.reportValidity();
         adultsInput.setCustomValidity("");
         return;
+      }
+
+      // If attending No, ensure 0s are sent
+      if (attendingSelect.value === "No") {
+        adultsInput.value = 0;
+        kidsInput.value = 0;
       }
 
       const data = Object.fromEntries(new FormData(form).entries());
