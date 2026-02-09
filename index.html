@@ -20,8 +20,6 @@
       --gold:#d9b65b;
       --gold2:#f3e3b2;
       --accent:#7dd3fc;
-      --leaf: rgba(125,170,140,.18);
-      --flower: rgba(217,182,91,.20);
     }
     *{box-sizing:border-box}
     body{
@@ -139,37 +137,6 @@
       border-radius:999px;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
-
-    /* Add to calendar buttons */
-    .cal-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:12px;
-    }
-    .cal-btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      text-decoration:none;
-      font-weight:900;
-      font-size:13px;
-      cursor:pointer;
-      user-select:none;
-    }
-    .cal-btn.primary{
-      border-color: rgba(217,182,91,.35);
-      background: rgba(217,182,91,.10);
-      color: var(--gold2);
-    }
-    .cal-btn:hover{filter:brightness(1.05)}
-    .cal-note{margin-top:8px; color:var(--muted); font-size:12px}
 
     .hero-card{
       border-radius:18px;
@@ -318,6 +285,7 @@
     }
     .k{min-width:110px; color: var(--muted); font-size:13px}
     .v{font-size:14px; line-height:1.5}
+
     .mapbtn{
       display:inline-block;
       margin-top:8px;
@@ -329,6 +297,56 @@
       text-decoration:none;
       font-weight:900;
       font-size:13px;
+    }
+
+    /* Small calendar icons (in Event Details) */
+    .times-wrap{display:grid; gap:10px; width:100%;}
+    .time-line{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.12);
+      border-radius:14px;
+      padding:10px 10px;
+    }
+    .time-left{display:flex; flex-direction:column; gap:2px}
+    .time-title{font-weight:900}
+    .time-when{color: rgba(238,242,255,.78); font-size:13px}
+
+    .cal-icons{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex:0 0 auto;
+    }
+    .cal-ico{
+      width:34px;
+      height:34px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      user-select:none;
+      text-decoration:none;
+      color: var(--text);
+      font-size:16px;
+      line-height:1;
+    }
+    .cal-ico:hover{filter:brightness(1.08)}
+    .cal-ico.gold{
+      border-color: rgba(217,182,91,.35);
+      background: rgba(217,182,91,.10);
+      color: var(--gold2);
+    }
+    .cal-help{
+      margin-top:10px;
+      color: var(--muted);
+      font-size:12px;
     }
 
     footer{margin:14px 0 0; text-align:center; color: rgba(169,179,199,.8); font-size:12px}
@@ -363,14 +381,6 @@
           <h1 class="h-title">Tiara Liz Thomas</h1>
           <p class="h-sub">April 06 • A day of faith, grace, and celebration. Please RSVP below.</p>
           <div class="gold-divider"></div>
-
-          <div class="cal-actions">
-            <a class="cal-btn primary" id="gcalMass" target="_blank" rel="noopener">📅 Add Mass (Google)</a>
-            <button class="cal-btn" id="icsMass" type="button">/📱 Add Mass (Apple)</button>
-            <a class="cal-btn primary" id="gcalReception" target="_blank" rel="noopener">📅 Add Reception (Google)</a>
-            <button class="cal-btn" id="icsReception" type="button">/📱 Add Reception (Apple)</button>
-          </div>
-          <div class="cal-note">Google opens in your browser. Apple/iPhone downloads an .ics file.</div>
         </div>
 
         <div class="hero-card">
@@ -480,11 +490,37 @@
             </div>
           </div>
 
+          <!-- Times + small add-to-calendar icons -->
           <div class="row">
             <div class="k">Times</div>
-            <div class="v">
-              Holy Mass: <b>3:00 PM</b><br/>
-              Reception: <b>6:30 PM</b>
+            <div class="v" style="width:100%">
+              <div class="times-wrap">
+                <div class="time-line">
+                  <div class="time-left">
+                    <div class="time-title">Holy Mass</div>
+                    <div class="time-when"><b>3:00 PM</b></div>
+                  </div>
+                  <div class="cal-icons" aria-label="Add Holy Mass to calendar">
+                    <!-- Google (small icon) -->
+                    <a class="cal-ico gold" id="gcalMass" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
+                    <!-- Apple/ICS (small icon) -->
+                    <button class="cal-ico" id="icsMass" type="button" title="Add to Apple Calendar (.ics)"></button>
+                  </div>
+                </div>
+
+                <div class="time-line">
+                  <div class="time-left">
+                    <div class="time-title">Reception</div>
+                    <div class="time-when"><b>6:30 PM</b></div>
+                  </div>
+                  <div class="cal-icons" aria-label="Add Reception to calendar">
+                    <a class="cal-ico gold" id="gcalReception" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
+                    <button class="cal-ico" id="icsReception" type="button" title="Add to Apple Calendar (.ics)"></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cal-help">Tip: Tap <b>G</b> for Google Calendar, or <b></b> to download an Apple Calendar file.</div>
             </div>
           </div>
         </div>
@@ -595,7 +631,7 @@
     // =======================
     // Add to Calendar (Google + Apple/ICS)
     // =======================
-    // ✅ Change this if the event is not in 2026
+    // Change year if needed
     const EVENT_YEAR = 2026;
     const EVENT_TZ = "Australia/Melbourne";
 
@@ -603,9 +639,7 @@
       title: "Holy Mass — Tiara Liz Thomas First Holy Communion",
       location: "Saint Michael's Catholic Church, 129 High St, Berwick VIC 3806",
       description: "First Holy Communion of Tiara Liz Thomas.",
-      // 3:00 PM (24-hour)
       start: { y: EVENT_YEAR, m: 4, d: 6, hh: 15, mm: 0 },
-      // 1 hour duration
       end:   { y: EVENT_YEAR, m: 4, d: 6, hh: 16, mm: 0 }
     };
 
@@ -613,13 +647,10 @@
       title: "Reception — Tiara Liz Thomas First Holy Communion",
       location: "Golden Castle Function Centre, Hampton Park, Victoria",
       description: "Reception for Tiara Liz Thomas First Holy Communion.",
-      // 6:30 PM
       start: { y: EVENT_YEAR, m: 4, d: 6, hh: 18, mm: 30 },
-      // 4 hours duration
       end:   { y: EVENT_YEAR, m: 4, d: 6, hh: 22, mm: 30 }
     };
 
-    // Convert a local date/time to UTC string for ICS (YYYYMMDDTHHMMSSZ)
     function toUtcIcs(dt) {
       const local = new Date(dt.y, dt.m - 1, dt.d, dt.hh, dt.mm, 0);
       const yyyy = local.getUTCFullYear();
@@ -627,11 +658,9 @@
       const dd = String(local.getUTCDate()).padStart(2, "0");
       const HH = String(local.getUTCHours()).padStart(2, "0");
       const mm = String(local.getUTCMinutes()).padStart(2, "0");
-      const ss = "00";
-      return `${yyyy}${MM}${dd}T${HH}${mm}${ss}Z`;
+      return `${yyyy}${MM}${dd}T${HH}${mm}00Z`;
     }
 
-    // Google Calendar wants dates as UTC-like format without separators: YYYYMMDDTHHMMSSZ
     function googleDateRange(start, end) {
       return `${toUtcIcs(start)}/${toUtcIcs(end)}`;
     }
@@ -658,9 +687,10 @@
 
     function buildIcs(ev) {
       const uid = `tiara-communion-${Math.random().toString(16).slice(2)}@githubpages`;
-      const dtstamp = toUtcIcs({ y: EVENT_YEAR, m: 2, d: 9, hh: 0, mm: 0 }); // arbitrary stamp
-      const dtstart = toUtcIcs(ev.start);
-      const dtend = toUtcIcs(ev.end);
+      const now = new Date();
+      const dtstamp =
+        `${now.getUTCFullYear()}${String(now.getUTCMonth()+1).padStart(2,"0")}${String(now.getUTCDate()).padStart(2,"0")}` +
+        `T${String(now.getUTCHours()).padStart(2,"0")}${String(now.getUTCMinutes()).padStart(2,"0")}00Z`;
 
       return [
         "BEGIN:VCALENDAR",
@@ -671,8 +701,8 @@
         "BEGIN:VEVENT",
         `UID:${uid}`,
         `DTSTAMP:${dtstamp}`,
-        `DTSTART:${dtstart}`,
-        `DTEND:${dtend}`,
+        `DTSTART:${toUtcIcs(ev.start)}`,
+        `DTEND:${toUtcIcs(ev.end)}`,
         `SUMMARY:${escapeIcsText(ev.title)}`,
         `DESCRIPTION:${escapeIcsText(ev.description)}`,
         `LOCATION:${escapeIcsText(ev.location)}`,
@@ -694,7 +724,7 @@
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
 
-    // Wire up buttons
+    // Wire up icon links
     const gcalMass = document.getElementById("gcalMass");
     const gcalReception = document.getElementById("gcalReception");
     const icsMass = document.getElementById("icsMass");
