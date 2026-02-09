@@ -16,7 +16,6 @@
       --text:#eef2ff;
       --muted: rgba(238,242,255,.72);
       --stroke: rgba(255,255,255,.12);
-      --card: rgba(255,255,255,.06);
       --gold:#d9b65b;
       --gold2:#f3e3b2;
       --accent:#7dd3fc;
@@ -173,23 +172,31 @@
     label{display:grid; gap:6px; font-size:13px; color: var(--muted)}
     input, select{
       width:100%;
-      padding:14px 12px;            /* bigger tap target */
+      padding:14px 12px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(0,0,0,.22);
       color: var(--text);
       outline:none;
-      font-size:16px;               /* prevents iOS zoom */
+      font-size:16px;
+      transition: opacity .15s ease, filter .15s ease;
     }
     input:focus, select:focus{
       border-color: rgba(217,182,91,.55);
       box-shadow: 0 0 0 4px rgba(217,182,91,.10);
     }
+    /* Visual cue when disabled */
+    input:disabled{
+      opacity:.55;
+      filter:saturate(.7);
+      cursor:not-allowed;
+    }
+
     .two{display:grid; grid-template-columns:1fr; gap:12px}
 
     .actions{
       display:flex; gap:10px; flex-wrap:wrap;
-      position: sticky; bottom: 10px;           /* feels great on mobile */
+      position: sticky; bottom: 10px;
       background: linear-gradient(180deg, rgba(7,10,18,0), rgba(7,10,18,.85));
       padding-top: 10px;
       margin-top: 6px;
@@ -327,7 +334,7 @@
             <label>Family Name / Your Name *<input name="familyName" required placeholder="e.g., Thomas" /></label>
 
             <label>Attending? *
-              <select name="attending" required>
+              <select name="attending" id="attending" required>
                 <option value="" selected disabled>Select…</option>
                 <option>Yes</option>
                 <option>No</option>
@@ -335,8 +342,12 @@
             </label>
 
             <div class="two">
-              <label>Number of Adults attending *<input type="number" name="adults" min="0" required value="0" /></label>
-              <label>Number of Kids <input type="number" name="kids" min="0" value="0" /></label>
+              <label>Number of Adults attending *
+                <input type="number" id="adults" name="adults" min="0" required value="0" />
+              </label>
+              <label>Number of Kids (Below 14)
+                <input type="number" id="kids" name="kids" min="0" value="0" />
+              </label>
             </div>
 
             <div class="actions">
@@ -407,7 +418,7 @@
     // Google Form endpoint
     const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSf26EDBCCSbnyzG39YNCY3YQ8btg2r1uUcti29MCU94SLxaJA/formResponse";
 
-    // ✅ Your real entry IDs (from the pre-filled link you provided)
+    // Entry IDs (from your pre-filled link)
     const ENTRY_MAP = {
       familyName: "entry.169108837",
       attending:  "entry.1331553265",
@@ -420,14 +431,69 @@
     const errMsg = document.getElementById("errMsg");
     const resetBtn = document.getElementById("resetBtn");
 
+    const attendingSelect = document.getElementById("attending");
+    const adultsInput = document.getElementById("adults");
+    const kidsInput = document.getElementById("kids");
+
     const show = (el) => el.style.display = "block";
     const hide = (el) => el.style.display = "none";
 
-    resetBtn.addEventListener("click", () => { form.reset(); hide(okMsg); hide(errMsg); });
+    function updateAttendanceRules() {
+      const attending = attendingSelect.value;
+
+      if (attending === "Yes") {
+        // Enable fields
+        adultsInput.disabled = false;
+        kidsInput.disabled = false;
+
+        // Adults must be at least 1
+        adultsInput.min = 1;
+        adultsInput.required = true;
+
+        // If it was previously 0, bump to 1
+        if (parseInt(adultsInput.value || "0", 10) < 1) {
+          adultsInput.value = 1;
+        }
+      } else if (attending === "No") {
+        // Disable and reset numbers
+        adultsInput.value = 0;
+        kidsInput.value = 0;
+
+        adultsInput.disabled = true;
+        kidsInput.disabled = true;
+
+        adultsInput.required = false;
+        adultsInput.min = 0;
+      } else {
+        // No selection yet: keep enabled but allow 0 until user chooses
+        adultsInput.disabled = false;
+        kidsInput.disabled = false;
+        adultsInput.min = 0;
+        adultsInput.required = true;
+      }
+    }
+
+    attendingSelect.addEventListener("change", updateAttendanceRules);
+    updateAttendanceRules();
+
+    resetBtn.addEventListener("click", () => {
+      form.reset();
+      hide(okMsg); hide(errMsg);
+      updateAttendanceRules();
+    });
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       hide(okMsg); hide(errMsg);
+
+      // Extra guard: if attending is Yes, adults cannot be 0
+      if (attendingSelect.value === "Yes" && parseInt(adultsInput.value || "0", 10) < 1) {
+        adultsInput.focus();
+        adultsInput.setCustomValidity("Please enter at least 1 adult.");
+        adultsInput.reportValidity();
+        adultsInput.setCustomValidity("");
+        return;
+      }
 
       const data = Object.fromEntries(new FormData(form).entries());
       const fd = new FormData();
@@ -439,6 +505,7 @@
         await fetch(FORM_ACTION, { method: "POST", mode: "no-cors", body: fd });
         show(okMsg);
         form.reset();
+        updateAttendanceRules();
       } catch (err) {
         show(errMsg);
       }
