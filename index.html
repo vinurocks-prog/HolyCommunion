@@ -139,8 +139,6 @@
       background: linear-gradient(180deg, var(--cardA), var(--cardB));
       box-shadow: 0 24px 70px rgba(0,0,0,.35);
       overflow:hidden;
-
-      /* iOS/Safari reliability */
       -webkit-backface-visibility:hidden;
       backface-visibility:hidden;
       transform: translateZ(0);
@@ -171,13 +169,10 @@
 
     /* FRONT */
     .program{ display:grid; gap:12px; }
-
-    /* Make the front card clearly tappable */
     .frontTap{
       cursor:pointer;
       user-select:none;
     }
-    .frontTap:active{ transform: scale(.998); }
 
     .rowbox{
       border:1px solid rgba(255,255,255,.08);
@@ -192,7 +187,7 @@
     .k{ min-width:110px; color: var(--muted); font-size:13px }
     .v{ font-size:14px; line-height:1.55 }
 
-    .eventlist{ display:grid; gap:10px; margin-top:2px; }
+    .eventlist{ display:grid; gap:10px; }
     .eventitem{
       border:1px solid rgba(255,255,255,.08);
       background: rgba(0,0,0,.12);
@@ -225,27 +220,11 @@
       font-size:16px;
       line-height:1;
     }
-    .ico:hover{filter:brightness(1.08)}
     .ico.gold{
       border-color: rgba(217,182,91,.35);
       background: rgba(217,182,91,.10);
       color: var(--gold2);
     }
-
-    .hint{ margin-top:10px; color: var(--muted); font-size:12px; }
-
-    /* Success banner on FRONT */
-    .toast{
-      display:none;
-      margin-top:12px;
-      padding:12px 12px;
-      border-radius:16px;
-      border:1px solid rgba(125,211,252,.30);
-      background: rgba(125,211,252,.08);
-      color: var(--text);
-      font-size:14px;
-    }
-    .toast strong{ color: var(--gold2); }
 
     /* BACK (RSVP form) */
     form{ display:grid; gap:12px; }
@@ -286,15 +265,35 @@
       color: var(--text);
       border:1px solid rgba(255,255,255,.14);
     }
-    .note{ font-size:12px; color: var(--muted); margin:4px 0 0; }
 
-    .toast.err{
+    .inline-confirm{
       display:none;
-      border-color: rgba(251,113,133,.45);
-      background: rgba(251,113,133,.08);
+      padding:12px 12px;
+      border-radius:16px;
+      border:1px solid rgba(217,182,91,.35);
+      background: rgba(217,182,91,.10);
+      margin-top:10px;
+      font-size:14px;
     }
 
-    footer{ margin:14px 0 0; text-align:center; color: rgba(169,179,199,.8); font-size:12px; }
+    /* Toaster (disappears) */
+    .toaster{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      width: min(560px, calc(100% - 28px));
+      z-index: 50;
+      border-radius: 18px;
+      border:1px solid rgba(125,211,252,.30);
+      background: rgba(125,211,252,.12);
+      box-shadow: 0 18px 60px rgba(0,0,0,.55);
+      padding: 12px 14px;
+      display:none;
+      font-size:14px;
+      backdrop-filter: blur(8px);
+    }
+    .toaster strong{ color: var(--gold2); }
 
     @media (min-width: 920px){
       body{ padding:22px; }
@@ -315,7 +314,7 @@
       <div class="hero-inner">
         <div class="badge">✦ First Holy Communion</div>
         <h1 class="h-title">Tiara Liz Thomas</h1>
-        <p class="h-sub">Monday, 06 April 2026 • A day of faith, grace, and celebration.</p>
+        <p class="h-sub">Monday, 06 April 2026</p>
         <div class="gold-divider"></div>
       </div>
     </section>
@@ -371,15 +370,9 @@
                     </div>
 
                   </div>
-
-                  <div class="hint">Tip: Tap 📍 for directions, <b>G</b> for Google Calendar, or <b></b> to download an Apple Calendar file.</div>
                 </div>
               </div>
 
-              <!-- Success message shown AFTER RSVP and also when user comes back later -->
-              <div class="toast" id="successToast">✅ <span id="successText"></span></div>
-
-              <div class="hint">After RSVP, your confirmation will stay visible here.</div>
             </div>
           </div>
         </section>
@@ -426,25 +419,23 @@
                 <button class="btn ghost" type="button" id="resetBtn">Clear</button>
               </div>
 
-              <p class="note">Your RSVP will be recorded to our Google Sheet.</p>
-
-              <div class="toast err" id="errToast">❌ Sorry — something went wrong. Please try again.</div>
-
-              <!-- Persisted confirmation shown on RSVP page if already submitted -->
-              <div class="toast" id="rsvpConfirm" style="display:none; border-color: rgba(217,182,91,.35); background: rgba(217,182,91,.10);">
-                ✅ <span id="rsvpConfirmText"></span>
+              <div class="inline-confirm" id="rsvpInlineConfirm">
+                ✅ <span id="rsvpInlineConfirmText"></span>
               </div>
 
-              <div class="hint">If you have already RSVPed, your confirmation will show here.</div>
+              <div class="inline-confirm" id="errBox" style="display:none; border-color: rgba(251,113,133,.45); background: rgba(251,113,133,.08);">
+                ❌ Sorry — something went wrong. Please try again.
+              </div>
             </form>
           </div>
         </section>
 
       </div>
     </div>
-
-    <footer>Tip: share this RSVP page link on WhatsApp / SMS / email.</footer>
   </div>
+
+  <!-- Toaster -->
+  <div class="toaster" id="toaster">✅ <span id="toasterText"></span></div>
 
   <script>
     // -----------------------
@@ -458,17 +449,14 @@
     function flipToRsvp() {
       flipCard.classList.add("is-flipped");
       flipWrap.scrollIntoView({ behavior: "smooth", block: "start" });
-      setTimeout(() => document.querySelector("input[name='familyName']")?.focus(), 350);
-      showPersistedConfirmation(); // show message on RSVP side if already submitted
+      setTimeout(() => document.querySelector("input[name='familyName']")?.focus(), 250);
+      showSessionConfirmationOnRsvpSide();
     }
     function flipToDetails() {
       flipCard.classList.remove("is-flipped");
       flipWrap.scrollIntoView({ behavior: "smooth", block: "start" });
-      // Ensure toast is visible after flip back
-      setTimeout(() => document.getElementById("successToast")?.scrollIntoView({behavior:"smooth", block:"nearest"}), 250);
     }
 
-    // Make whole front card tappable, but NOT the icons/links/buttons
     frontFace.addEventListener("click", (e) => {
       if (e.target.closest(".stopTap")) return;
       flipToRsvp();
@@ -485,7 +473,7 @@
       flipToDetails();
     });
 
-    // Prevent icon clicks bubbling (so they don't flip the card)
+    // Prevent icon/button clicks bubbling (so they don't flip)
     document.querySelectorAll(".stopTap").forEach(el => {
       el.addEventListener("click", (e) => e.stopPropagation());
     });
@@ -511,15 +499,26 @@
     const adultsInput = document.getElementById("adults");
     const kidsInput = document.getElementById("kids");
 
-    const successToast = document.getElementById("successToast");
-    const successText = document.getElementById("successText");
-    const errToast = document.getElementById("errToast");
+    const errBox = document.getElementById("errBox");
 
-    const rsvpConfirm = document.getElementById("rsvpConfirm");
-    const rsvpConfirmText = document.getElementById("rsvpConfirmText");
+    // Inline confirm on RSVP side
+    const rsvpInlineConfirm = document.getElementById("rsvpInlineConfirm");
+    const rsvpInlineConfirmText = document.getElementById("rsvpInlineConfirmText");
+
+    // Toaster
+    const toaster = document.getElementById("toaster");
+    const toasterText = document.getElementById("toasterText");
+    let toasterTimer = null;
 
     function show(el){ el.style.display = "block"; }
     function hide(el){ el.style.display = "none"; }
+
+    function showToast(html) {
+      toasterText.innerHTML = html;
+      show(toaster);
+      if (toasterTimer) clearTimeout(toasterTimer);
+      toasterTimer = setTimeout(() => hide(toaster), 3500);
+    }
 
     function updateAttendanceRules() {
       const attending = attendingSelect.value;
@@ -554,59 +553,45 @@
     attendingSelect.addEventListener("change", updateAttendanceRules);
     updateAttendanceRules();
 
-    // ---- Persisted confirmation handling (localStorage)
-    const STORAGE_KEY = "tiara_holy_communion_rsvp_confirmation_v1";
+    // ---- Session persistence (sessionStorage)
+    const SESSION_KEY = "tiara_hc_rsvp_session_confirmation_v1";
 
-    function saveConfirmation(summaryTextPlain, summaryHtml) {
-      const payload = {
-        plain: summaryTextPlain,
-        html: summaryHtml,
-        ts: Date.now()
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    function saveSessionConfirmation(payload) {
+      try {
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(payload));
+      } catch {}
     }
 
-    function loadConfirmation() {
+    function loadSessionConfirmation() {
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return null;
-        return JSON.parse(raw);
+        const raw = sessionStorage.getItem(SESSION_KEY);
+        return raw ? JSON.parse(raw) : null;
       } catch { return null; }
     }
 
-    function showPersistedConfirmation() {
-      const conf = loadConfirmation();
-      if (!conf) {
-        hide(rsvpConfirm);
-        return;
-      }
-      rsvpConfirmText.innerHTML = conf.html || conf.plain;
-      show(rsvpConfirm);
+    function showSessionConfirmationOnRsvpSide() {
+      const conf = loadSessionConfirmation();
+      if (!conf) { hide(rsvpInlineConfirm); return; }
+      rsvpInlineConfirmText.innerHTML = conf.html || conf.plain;
+      show(rsvpInlineConfirm);
     }
 
-    function showConfirmationOnDetails() {
-      const conf = loadConfirmation();
-      if (!conf) return;
-      successText.innerHTML = conf.html || conf.plain;
-      show(successToast);
-    }
-
-    // Show confirmation on load (details side)
-    showConfirmationOnDetails();
+    // Also show confirmation immediately if user lands on RSVP side (not typical, but safe)
+    showSessionConfirmationOnRsvpSide();
 
     resetBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       form.reset();
-      hide(errToast);
+      hide(errBox);
       submitBtn.disabled = false;
       submitBtn.textContent = "Submit RSVP";
       updateAttendanceRules();
-      showPersistedConfirmation();
+      showSessionConfirmationOnRsvpSide();
     });
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      hide(errToast);
+      hide(errBox);
 
       // Rule: If Yes, adults must be >= 1
       if (attendingSelect.value === "Yes" && parseInt(adultsInput.value || "0", 10) < 1) {
@@ -629,7 +614,6 @@
       const kids = parseInt(data.kids || "0", 10);
       const who = (data.familyName || "").trim();
 
-      // Build confirmation summary
       let summaryHtml = "";
       let summaryPlain = "";
 
@@ -641,8 +625,8 @@
         summaryPlain = `Thanks${who ? " " + who : ""}! RSVP received for ${adults} Adult${adults===1?"":"s"} and ${kids} Kid${kids===1?"":"s"}.`;
       }
 
-      // Save locally so if user opens RSVP again, they see it
-      saveConfirmation(summaryPlain, summaryHtml);
+      // Save in session so flipping back shows it
+      saveSessionConfirmation({ html: summaryHtml, plain: summaryPlain, ts: Date.now() });
 
       // Prepare Google Form payload
       const fd = new FormData();
@@ -656,24 +640,23 @@
       try {
         await fetch(FORM_ACTION, { method: "POST", mode: "no-cors", body: fd });
 
-        // Reset form fields (optional) but keep confirmation persisted
-        form.reset();
-        updateAttendanceRules();
         submitBtn.disabled = false;
         submitBtn.textContent = "Submit RSVP";
 
-        // Show confirmation on BOTH sides
-        successText.innerHTML = summaryHtml;
-        show(successToast);
+        // Show toaster then flip back
+        showToast(summaryHtml);
 
-        rsvpConfirmText.innerHTML = summaryHtml;
-        show(rsvpConfirm);
+        // Keep confirmation visible on RSVP side if user flips back later
+        showSessionConfirmationOnRsvpSide();
 
-        // Flip back to details
+        // Optional: clear the form so it looks tidy
+        form.reset();
+        updateAttendanceRules();
+
         flipToDetails();
 
       } catch (err) {
-        show(errToast);
+        show(errBox);
         submitBtn.disabled = false;
         submitBtn.textContent = "Submit RSVP";
       }
@@ -774,7 +757,6 @@
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
 
-    // Wire up calendar icons
     const gcalMass = document.getElementById("gcalMass");
     const gcalReception = document.getElementById("gcalReception");
     const icsMass = document.getElementById("icsMass");
