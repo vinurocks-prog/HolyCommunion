@@ -169,10 +169,7 @@
 
     /* FRONT */
     .program{ display:grid; gap:12px; }
-    .frontTap{
-      cursor:pointer;
-      user-select:none;
-    }
+    .frontTap{ cursor:pointer; user-select:none; }
 
     .rowbox{
       border:1px solid rgba(255,255,255,.08);
@@ -206,7 +203,7 @@
     .actionsRight{display:flex; gap:8px; align-items:center; flex:0 0 auto;}
 
     .ico{
-      width:34px; height:34px;
+      width:36px; height:36px;
       border-radius:12px;
       border:1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.06);
@@ -217,13 +214,17 @@
       user-select:none;
       text-decoration:none;
       color: var(--text);
-      font-size:16px;
       line-height:1;
+      padding:0;
+    }
+    .ico img{
+      width:20px;
+      height:20px;
+      display:block;
     }
     .ico.gold{
       border-color: rgba(217,182,91,.35);
       background: rgba(217,182,91,.10);
-      color: var(--gold2);
     }
 
     /* BACK (RSVP form) */
@@ -276,7 +277,7 @@
       font-size:14px;
     }
 
-    /* Toaster (disappears) */
+    /* Toaster */
     .toaster{
       position: fixed;
       left: 50%;
@@ -322,7 +323,7 @@
     <div class="flip-wrap" id="flipWrap">
       <div class="flip" id="flipCard" aria-live="polite">
 
-        <!-- FRONT: Details (whole card tappable) -->
+        <!-- FRONT: Details -->
         <section class="face front frontTap" id="frontFace" role="button" tabindex="0" aria-label="Tap to open RSVP">
           <div class="head">
             <div class="title">Program & Details</div>
@@ -348,10 +349,21 @@
                         <div class="addr">129 High St, Berwick VIC 3806</div>
                       </div>
                       <div class="actionsRight">
+                        <!-- Google Maps icon -->
                         <a class="ico stopTap" target="_blank" rel="noopener" title="Open in Google Maps"
-                           href="https://www.google.com/maps/search/?api=1&query=Saint%20Michael%27s%20Catholic%20Church%2C%20129%20High%20St%2C%20Berwick%20VIC%203806">📍</a>
-                        <a class="ico gold stopTap" id="gcalMass" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
-                        <button class="ico stopTap" id="icsMass" type="button" title="Add to Apple Calendar (.ics)"></button>
+                           href="https://www.google.com/maps/search/?api=1&query=Saint%20Michael%27s%20Catholic%20Church%2C%20129%20High%20St%2C%20Berwick%20VIC%203806">
+                          <img alt="Google Maps" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%231a73e8' d='M24 4c-7.7 0-14 6.3-14 14 0 10.5 14 26 14 26s14-15.5 14-26c0-7.7-6.3-14-14-14z'/%3E%3Cpath fill='%23ea4335' d='M24 4c7.7 0 14 6.3 14 14 0 10.5-14 26-14 26V4z'/%3E%3Ccircle cx='24' cy='18' r='6.5' fill='%23fbbc05'/%3E%3Ccircle cx='24' cy='18' r='3.7' fill='%234285f4'/%3E%3C/svg%3E" />
+                        </a>
+
+                        <!-- Google Calendar icon -->
+                        <a class="ico gold stopTap" id="gcalMass" target="_blank" rel="noopener" title="Add to Google Calendar">
+                          <img alt="Google Calendar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23fff' fill-opacity='.08' d='M10 8h28a4 4 0 0 1 4 4v26a4 4 0 0 1-4 4H10a4 4 0 0 1-4-4V12a4 4 0 0 1 4-4z'/%3E%3Cpath fill='%234285f4' d='M38 10H10a2 2 0 0 0-2 2v26a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V12a2 2 0 0 0-2-2z'/%3E%3Cpath fill='%23fff' d='M14 18h20v18H14z'/%3E%3Cpath fill='%23ea4335' d='M16 6h4v6h-4zM28 6h4v6h-4z'/%3E%3Cpath fill='%2334a853' d='M14 18h20v4H14z'/%3E%3Cpath fill='%23fbbc05' d='M18 26h12v8H18z'/%3E%3Cpath fill='%234285f4' d='M20.5 29.3l1.6 1.6 4-4 1.2 1.2-5.2 5.2-2.8-2.8z'/%3E%3C/svg%3E" />
+                        </a>
+
+                        <!-- Apple calendar (.ics) -->
+                        <button class="ico stopTap" id="icsMass" type="button" title="Add to Apple Calendar (.ics)">
+                          <span style="font-size:16px; color:rgba(238,242,255,.9); font-weight:900;"></span>
+                        </button>
                       </div>
                     </div>
 
@@ -363,9 +375,17 @@
                       </div>
                       <div class="actionsRight">
                         <a class="ico stopTap" target="_blank" rel="noopener" title="Open in Google Maps"
-                           href="https://www.google.com/maps/search/?api=1&query=Golden%20Castle%20Function%20Centre%2C%20Hampton%20Park%2C%20Victoria">📍</a>
-                        <a class="ico gold stopTap" id="gcalReception" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
-                        <button class="ico stopTap" id="icsReception" type="button" title="Add to Apple Calendar (.ics)"></button>
+                           href="https://www.google.com/maps/search/?api=1&query=Golden%20Castle%20Function%20Centre%2C%20Hampton%20Park%2C%20Victoria">
+                          <img alt="Google Maps" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%231a73e8' d='M24 4c-7.7 0-14 6.3-14 14 0 10.5 14 26 14 26s14-15.5 14-26c0-7.7-6.3-14-14-14z'/%3E%3Cpath fill='%23ea4335' d='M24 4c7.7 0 14 6.3 14 14 0 10.5-14 26-14 26V4z'/%3E%3Ccircle cx='24' cy='18' r='6.5' fill='%23fbbc05'/%3E%3Ccircle cx='24' cy='18' r='3.7' fill='%234285f4'/%3E%3C/svg%3E" />
+                        </a>
+
+                        <a class="ico gold stopTap" id="gcalReception" target="_blank" rel="noopener" title="Add to Google Calendar">
+                          <img alt="Google Calendar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23fff' fill-opacity='.08' d='M10 8h28a4 4 0 0 1 4 4v26a4 4 0 0 1-4 4H10a4 4 0 0 1-4-4V12a4 4 0 0 1 4-4z'/%3E%3Cpath fill='%234285f4' d='M38 10H10a2 2 0 0 0-2 2v26a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V12a2 2 0 0 0-2-2z'/%3E%3Cpath fill='%23fff' d='M14 18h20v18H14z'/%3E%3Cpath fill='%23ea4335' d='M16 6h4v6h-4zM28 6h4v6h-4z'/%3E%3Cpath fill='%2334a853' d='M14 18h20v4H14z'/%3E%3Cpath fill='%23fbbc05' d='M18 26h12v8H18z'/%3E%3Cpath fill='%234285f4' d='M20.5 29.3l1.6 1.6 4-4 1.2 1.2-5.2 5.2-2.8-2.8z'/%3E%3C/svg%3E" />
+                        </a>
+
+                        <button class="ico stopTap" id="icsReception" type="button" title="Add to Apple Calendar (.ics)">
+                          <span style="font-size:16px; color:rgba(238,242,255,.9); font-weight:900;"></span>
+                        </button>
                       </div>
                     </div>
 
@@ -557,9 +577,7 @@
     const SESSION_KEY = "tiara_hc_rsvp_session_confirmation_v1";
 
     function saveSessionConfirmation(payload) {
-      try {
-        sessionStorage.setItem(SESSION_KEY, JSON.stringify(payload));
-      } catch {}
+      try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(payload)); } catch {}
     }
 
     function loadSessionConfirmation() {
@@ -575,8 +593,6 @@
       rsvpInlineConfirmText.innerHTML = conf.html || conf.plain;
       show(rsvpInlineConfirm);
     }
-
-    // Also show confirmation immediately if user lands on RSVP side (not typical, but safe)
     showSessionConfirmationOnRsvpSide();
 
     resetBtn.addEventListener("click", (e) => {
@@ -643,13 +659,9 @@
         submitBtn.disabled = false;
         submitBtn.textContent = "Submit RSVP";
 
-        // Show toaster then flip back
         showToast(summaryHtml);
-
-        // Keep confirmation visible on RSVP side if user flips back later
         showSessionConfirmationOnRsvpSide();
 
-        // Optional: clear the form so it looks tidy
         form.reset();
         updateAttendanceRules();
 
