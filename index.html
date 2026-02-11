@@ -12,7 +12,6 @@
 
   <style>
     :root{
-      /* Dark luxe theme */
       --bg:#070a12;
       --text:#eef2ff;
       --muted: rgba(238,242,255,.72);
@@ -20,7 +19,11 @@
       --gold:#d9b65b;
       --gold2:#f3e3b2;
       --accent:#7dd3fc;
+
+      --cardA: rgba(255,255,255,.07);
+      --cardB: rgba(255,255,255,.03);
     }
+
     *{box-sizing:border-box}
     body{
       margin:0;
@@ -35,15 +38,15 @@
       display:flex;
       justify-content:center;
     }
-    .wrap{width:min(1040px, 100%); position:relative; isolation:isolate;}
+    .wrap{width:min(980px, 100%); position:relative; isolation:isolate;}
 
-    /* Botanical overlays */
+    /* Botanical overlays (subtle) */
     .wrap::before,
     .wrap::after{
       content:"";
       position:fixed;
-      width:320px;
-      height:320px;
+      width:300px;
+      height:300px;
       background-repeat:no-repeat;
       background-size:contain;
       pointer-events:none;
@@ -52,58 +55,42 @@
       filter: blur(.2px);
     }
     .wrap::before{
-      top:-60px;
-      left:-70px;
-      background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%237daa8c' stroke-opacity='.55' stroke-width='2'%3E%3Cpath d='M40 190c35-85 120-135 200-140-18 95-75 170-170 205'/%3E%3Cpath d='M70 205c24-60 78-105 148-125'/%3E%3Cpath d='M95 185c18-45 55-78 108-95'/%3E%3C/g%3E%3C/svg%3E");
+      top:-60px; left:-70px;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%237daa8c' stroke-opacity='.55' stroke-width='2'%3E%3Cpath d='M40 190c35-85 120-135 200-140-18 95-75 170-170 205'/%3E%3Cpath d='M70 205c24-60 78-105 148-125'/%3E%3Cpath d='M95 185c18-45 55-78 108-95'/%3E%3C/g%3E%3C/svg%3E");
     }
     .wrap::after{
-      bottom:-70px;
-      right:-70px;
-      background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%23d9b65b' stroke-opacity='.55' stroke-width='1.8'%3E%3Ccircle cx='150' cy='130' r='22'/%3E%3Cpath d='M150 82c6-18 20-30 40-34-6 20-18 34-38 42'/%3E%3Cpath d='M150 178c-6 18-20 30-40 34 6-20 18-34 38-42'/%3E%3Cpath d='M122 130c-18-6-30-20-34-40 20 6 34 18 42 38'/%3E%3Cpath d='M178 130c18 6 30 20 34 40-20-6-34-18-42-38'/%3E%3Cpath d='M110 92l-20-20M190 168l20 20M110 168l-20 20M190 92l20-20'/%3E%3C/g%3E%3C/svg%3E");
+      bottom:-70px; right:-70px;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%23d9b65b' stroke-opacity='.55' stroke-width='1.8'%3E%3Ccircle cx='150' cy='130' r='22'/%3E%3Cpath d='M150 82c6-18 20-30 40-34-6 20-18 34-38 42'/%3E%3Cpath d='M150 178c-6 18-20 30-40 34 6-20 18-34 38-42'/%3E%3Cpath d='M122 130c-18-6-30-20-34-40 20 6 34 18 42 38'/%3E%3Cpath d='M178 130c18 6 30 20 34 40-20-6-34-18-42-38'/%3E%3Cpath d='M110 92l-20-20M190 168l20 20M110 168l-20 20M190 92l20-20'/%3E%3C/g%3E%3C/svg%3E");
     }
 
-    /* HERO */
+    /* Top header (kept compact) */
     .hero{
-      position:relative;
       border-radius:22px;
       overflow:hidden;
       border:1px solid rgba(255,255,255,.12);
-      box-shadow: 0 30px 90px rgba(0,0,0,.45);
-      margin-bottom:16px;
+      box-shadow: 0 26px 80px rgba(0,0,0,.42);
       background: rgba(255,255,255,.04);
-    }
-    .hero::after{
-      content:"";
-      position:absolute; inset:0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520' viewBox='0 0 520 520'%3E%3Cg fill='none' stroke='%23f3e3b2' stroke-opacity='.15'%3E%3Cpath d='M78 110c40 10 70 44 80 90-46-10-80-40-90-80z'/%3E%3Cpath d='M160 86c20 34 20 78-2 118-34-20-52-58-46-96z'/%3E%3Cpath d='M420 420c-44-10-78-44-88-92 48 12 82 44 92 88z'/%3E%3Ccircle cx='260' cy='260' r='86'/%3E%3Cpath d='M260 174c18 24 18 56 0 80-18-24-18-56 0-80z'/%3E%3Cpath d='M174 260c24-18 56-18 80 0-24 18-56 18-80 0z'/%3E%3Cpath d='M260 346c-18-24-18-56 0-80 18 24 18 56 0 80z'/%3E%3Cpath d='M346 260c-24 18-56 18-80 0 24-18 56-18 80 0z'/%3E%3C/g%3E%3C/svg%3E");
-      background-size: 520px 520px;
-      opacity:.45;
-      pointer-events:none;
-      mix-blend-mode: overlay;
+      position:relative;
+      margin-bottom:14px;
     }
     .hero::before{
       content:"";
       position:absolute;
-      inset:-60px -80px auto -80px;
+      inset:-70px -90px auto -90px;
       height:240px;
       background:
-        radial-gradient(260px 160px at 25% 40%, rgba(125,170,140,.18), transparent 60%),
+        radial-gradient(260px 160px at 25% 45%, rgba(125,170,140,.18), transparent 60%),
         radial-gradient(240px 160px at 75% 35%, rgba(217,182,91,.18), transparent 62%),
         radial-gradient(320px 220px at 55% 0%, rgba(125,170,140,.10), transparent 62%);
       pointer-events:none;
     }
-
     .hero-inner{
       position:relative;
-      padding: 18px 16px;
+      padding: 16px 16px;
       display:grid;
-      grid-template-columns: 1fr;
-      gap:14px;
+      gap:10px;
       z-index:1;
     }
-
     .badge{
       display:inline-flex; gap:10px; align-items:center;
       padding:8px 12px;
@@ -117,77 +104,51 @@
       letter-spacing:.2px;
     }
     .h-title{
-      margin:10px 0 6px;
-      font-family: "Playfair Display", serif;
-      font-size: clamp(30px, 8vw, 52px);
+      margin:8px 0 2px;
+      font-family:"Playfair Display", serif;
+      font-size: clamp(28px, 7.2vw, 48px);
       line-height:1.05;
-      text-shadow: 0 8px 30px rgba(0,0,0,.45);
+      text-shadow: 0 8px 28px rgba(0,0,0,.42);
     }
     .h-sub{
       margin:0;
       color: var(--muted);
-      font-size:15px;
+      font-size:14px;
       line-height:1.6;
-      max-width: 62ch;
     }
     .gold-divider{
-      margin-top:12px;
-      width:90px;
-      height:3px;
-      border-radius:999px;
+      width:86px; height:3px; border-radius:999px;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin-top:8px;
     }
 
-    .hero-card{
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.14);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-      padding:14px;
-      backdrop-filter: blur(6px);
+    /* Flip card container */
+    .flip-wrap{
+      perspective: 1200px;
     }
-    .hero-card h3{
-      margin:0 0 10px;
-      font-size:12px;
-      letter-spacing:.25px;
-      color: rgba(238,242,255,.78);
-      font-weight:800;
-      text-transform:uppercase;
+    .flip{
+      position:relative;
+      width:100%;
+      min-height: 520px;
+      transform-style: preserve-3d;
+      transition: transform .7s cubic-bezier(.2,.8,.2,1);
     }
-    .timeline{display:grid; gap:10px}
-    .titem{
-      display:flex; gap:10px; align-items:flex-start;
-      padding:12px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.18);
-    }
-    .dot{
-      width:10px; height:10px; border-radius:999px;
-      background: var(--gold);
-      margin-top:6px;
-      box-shadow: 0 0 0 4px rgba(217,182,91,.12);
-      flex:0 0 auto;
-    }
-    .tname{font-weight:900}
-    .ttime{color: rgba(238,242,255,.75); font-size:13px; margin-top:2px}
+    .flip.is-flipped{ transform: rotateY(180deg); }
 
-    /* MAIN GRID */
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:16px;
-    }
-
-    /* cards */
-    .card{
+    .face{
+      position:absolute;
+      inset:0;
+      backface-visibility:hidden;
       border-radius:22px;
       border:1px solid rgba(255,255,255,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      background: linear-gradient(180deg, var(--cardA), var(--cardB));
       box-shadow: 0 24px 70px rgba(0,0,0,.35);
       overflow:hidden;
     }
+    .face.back{ transform: rotateY(180deg); }
+
     .head{
-      padding:16px 16px;
+      padding:14px 16px;
       border-bottom:1px solid rgba(255,255,255,.08);
       display:flex; align-items:center; justify-content:space-between; gap:12px;
     }
@@ -206,135 +167,32 @@
       white-space:nowrap;
       font-weight:800;
     }
-    .content{padding:16px}
+    .content{ padding:14px 16px; }
 
-    /* form */
-    form{display:grid; gap:12px}
-    label{display:grid; gap:6px; font-size:13px; color: var(--muted)}
-    input, select{
-      width:100%;
-      padding:14px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.22);
-      color: var(--text);
-      outline:none;
-      font-size:16px;
-      transition: opacity .15s ease, filter .15s ease, box-shadow .15s ease;
+    /* Event details layout (front) */
+    .program{
+      display:grid;
+      gap:12px;
     }
-    input:focus, select:focus{
-      border-color: rgba(217,182,91,.55);
-      box-shadow: 0 0 0 4px rgba(217,182,91,.10);
-    }
-    input:disabled{
-      opacity:.55;
-      filter:saturate(.7);
-      cursor:not-allowed;
-    }
-
-    .two{display:grid; grid-template-columns:1fr; gap:12px}
-
-    .actions{
-      display:flex; gap:10px; flex-wrap:wrap;
-      position: sticky; bottom: 10px;
-      background: linear-gradient(180deg, rgba(7,10,18,0), rgba(7,10,18,.85));
-      padding-top: 10px;
-      margin-top: 6px;
-    }
-    button{
-      cursor:pointer;
-      border:0;
-      border-radius:16px;
-      padding:14px 14px;
-      font-weight:900;
-      font-size:15px;
-      width:100%;
-    }
-    .btn{
-      background: linear-gradient(180deg, rgba(217,182,91,1), rgba(217,182,91,.88));
-      color:#1a1406;
-    }
-    .ghost{
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      border:1px solid rgba(255,255,255,.14);
-    }
-
-    .note{font-size:12px; color: var(--muted); margin:8px 0 0}
-
-    /* RSVP result card shown after submit */
-    .result{
-      display:none;
-      margin-top:12px;
-      padding:14px 14px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
-      font-size:14px;
-    }
-    .result strong{color: var(--gold2)}
-    .result-actions{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin-top:12px;
-      flex-wrap:wrap;
-    }
-    .tiny-ico{
-      width:36px;
-      height:36px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      text-decoration:none;
-      user-select:none;
-      font-size:16px;
-      line-height:1;
-    }
-    .tiny-ico.gold{
-      border-color: rgba(217,182,91,.35);
-      background: rgba(217,182,91,.10);
-      color: var(--gold2);
-    }
-    .tiny-text{
-      color: var(--muted);
-      font-size:12px;
-    }
-
-    /* info */
-    .info{display:grid; gap:12px; padding:16px}
-    .row{
-      display:flex; gap:12px; align-items:flex-start;
-      padding:12px 12px;
+    .rowbox{
       border:1px solid rgba(255,255,255,.08);
-      border-radius:16px;
       background: rgba(0,0,0,.14);
+      border-radius:16px;
+      padding:12px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
       flex-wrap:wrap;
     }
-    .k{min-width:110px; color: var(--muted); font-size:13px}
-    .v{font-size:14px; line-height:1.5}
+    .k{ min-width:110px; color: var(--muted); font-size:13px }
+    .v{ font-size:14px; line-height:1.55 }
 
-    .mapbtn{
-      display:inline-block;
-      margin-top:8px;
-      padding:12px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      text-decoration:none;
-      font-weight:900;
-      font-size:13px;
+    .timeline{
+      display:grid;
+      gap:10px;
+      margin-top:2px;
     }
-
-    /* Small calendar icons (Event Details) */
-    .times-wrap{display:grid; gap:10px; width:100%;}
-    .time-line{
+    .titem{
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -344,9 +202,9 @@
       border-radius:14px;
       padding:10px 10px;
     }
-    .time-left{display:flex; flex-direction:column; gap:2px}
-    .time-title{font-weight:900}
-    .time-when{color: rgba(238,242,255,.78); font-size:13px}
+    .tleft{ display:flex; flex-direction:column; gap:2px }
+    .tname{ font-weight:900 }
+    .ttime{ color: rgba(238,242,255,.78); font-size:13px }
 
     .cal-icons{
       display:flex;
@@ -370,35 +228,111 @@
       font-size:16px;
       line-height:1;
     }
-    .cal-ico:hover{filter:brightness(1.08)}
+    .cal-ico:hover{ filter:brightness(1.08); }
     .cal-ico.gold{
       border-color: rgba(217,182,91,.35);
       background: rgba(217,182,91,.10);
       color: var(--gold2);
     }
-    .cal-help{
+
+    .mapbtn{
+      display:inline-block;
+      margin-top:8px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      text-decoration:none;
+      font-weight:900;
+      font-size:13px;
+    }
+
+    /* Buttons */
+    .btnrow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .btn{
+      cursor:pointer;
+      border:0;
+      border-radius:16px;
+      padding:12px 14px;
+      font-weight:900;
+      font-size:14px;
+      flex:1 1 160px;
+    }
+    .btn.primary{
+      background: linear-gradient(180deg, rgba(217,182,91,1), rgba(217,182,91,.88));
+      color:#1a1406;
+    }
+    .btn.ghost{
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border:1px solid rgba(255,255,255,.14);
+    }
+
+    .hint{
       margin-top:10px;
       color: var(--muted);
       font-size:12px;
     }
 
-    footer{margin:14px 0 0; text-align:center; color: rgba(169,179,199,.8); font-size:12px}
+    /* RSVP form (back) */
+    form{ display:grid; gap:12px; }
+    label{ display:grid; gap:6px; font-size:13px; color: var(--muted); }
+    input, select{
+      width:100%;
+      padding:14px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      color: var(--text);
+      outline:none;
+      font-size:16px;
+    }
+    input:focus, select:focus{
+      border-color: rgba(217,182,91,.55);
+      box-shadow: 0 0 0 4px rgba(217,182,91,.10);
+    }
+    input:disabled{ opacity:.55; cursor:not-allowed; }
 
-    /* Desktop layout */
+    .two{ display:grid; grid-template-columns:1fr; gap:12px; }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:4px;
+    }
+    .note{ font-size:12px; color: var(--muted); margin:4px 0 0; }
+
+    /* Success message (shown on front after submit) */
+    .toast{
+      display:none;
+      margin-top:12px;
+      padding:12px 12px;
+      border-radius:16px;
+      border:1px solid rgba(125,211,252,.30);
+      background: rgba(125,211,252,.08);
+      color: var(--text);
+      font-size:14px;
+    }
+    .toast strong{ color: var(--gold2); }
+
+    footer{ margin:14px 0 0; text-align:center; color: rgba(169,179,199,.8); font-size:12px; }
+
     @media (min-width: 920px){
-      body{padding:22px}
-      .hero-inner{
-        grid-template-columns: 1.1fr .9fr;
-        padding: 26px 22px;
-        align-items:end;
-      }
-      .grid{grid-template-columns: 1.2fr .8fr}
-      .content{padding:16px 18px}
-      .head{padding:16px 18px}
-      .two{grid-template-columns:1fr 1fr}
-      .actions{position:static; background:none; padding-top:0}
-      button{width:auto}
-      .btn{flex:1}
+      body{ padding:22px; }
+      .hero-inner{ padding: 20px 22px; }
+      .flip{ min-height: 460px; }
+      .two{ grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .flip{ transition: none; }
     }
   </style>
 </head>
@@ -406,167 +340,142 @@
 <body>
   <div class="wrap">
 
-    <!-- HERO -->
     <section class="hero">
       <div class="hero-inner">
-        <div>
-          <div class="badge">✦ First Holy Communion</div>
-          <h1 class="h-title">Tiara Liz Thomas</h1>
-          <p class="h-sub">April 06 • A day of faith, grace, and celebration. Please RSVP below.</p>
-          <div class="gold-divider"></div>
-        </div>
-
-        <div class="hero-card">
-          <h3>Program</h3>
-          <div class="timeline">
-            <div class="titem">
-              <div class="dot"></div>
-              <div>
-                <div class="tname">Holy Mass</div>
-                <div class="ttime">3:00 PM</div>
-              </div>
-            </div>
-            <div class="titem">
-              <div class="dot"></div>
-              <div>
-                <div class="tname">Reception</div>
-                <div class="ttime">6:30 PM</div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="badge">✦ First Holy Communion</div>
+        <h1 class="h-title">Tiara Liz Thomas</h1>
+        <p class="h-sub">April 06 • A day of faith, grace, and celebration.</p>
+        <div class="gold-divider"></div>
       </div>
     </section>
 
-    <div class="grid">
-      <!-- RSVP FORM -->
-      <div class="card" id="rsvpCard">
-        <div class="head">
-          <div class="title">RSVP</div>
-          <div class="pill">Saved to Google Sheet</div>
-        </div>
+    <div class="flip-wrap" id="flipWrap">
+      <div class="flip" id="flipCard" aria-live="polite">
 
-        <div class="content">
-          <form id="rsvpForm" novalidate>
-            <label>
-              Family Name / Your Name *
-              <input name="familyName" required placeholder="e.g., Thomas" />
-            </label>
-
-            <label>
-              Attending? *
-              <select name="attending" id="attending" required>
-                <option value="" selected disabled>Select…</option>
-                <option>Yes</option>
-                <option>No</option>
-              </select>
-            </label>
-
-            <div class="two">
-              <label>
-                Number of Adults attending *
-                <input type="number" id="adults" name="adults" min="0" required value="0" />
-              </label>
-
-              <label>
-                Number of Kids (Below 14)
-                <input type="number" id="kids" name="kids" min="0" value="0" />
-              </label>
-            </div>
-
-            <div class="actions">
-              <button class="btn" type="submit" id="submitBtn">Submit RSVP</button>
-              <button class="ghost" type="button" id="resetBtn">Clear</button>
-            </div>
-
-            <p class="note">Your RSVP will be recorded to our Google Sheet.</p>
-          </form>
-
-          <!-- After submit: show this, hide the form -->
-          <div class="result" id="resultBox">
-            <div id="resultText"></div>
-
-            <div class="result-actions" style="display:none;">
-  <a class="tiny-ico gold" id="waShare" target="_blank" rel="noopener" title="Share on WhatsApp">🟢</a>
-  <div class="tiny-text">Share this invite on WhatsApp</div>
-</div>
-
-
-          <div class="result" id="errBox" style="display:none; border-color: rgba(251,113,133,.45);">
-            ❌ Sorry — something went wrong. Please try again.
-          </div>
-        </div>
-      </div>
-
-      <!-- EVENT INFO -->
-      <div class="card">
-        <div class="head">
-          <div class="title">Event Details</div>
-          <div class="pill">Locations</div>
-        </div>
-
-        <div class="info">
-          <div class="row">
-            <div class="k">Date</div>
-            <div class="v">April 06</div>
+        <!-- FRONT: Program + Event details -->
+        <section class="face front" id="frontFace">
+          <div class="head">
+            <div class="title">Program & Details</div>
+            <div class="pill">Tap RSVP</div>
           </div>
 
-          <div class="row">
-            <div class="k">Church</div>
-            <div class="v">
-              Saint Michael's Catholic Church<br/>
-              129 High St, Berwick VIC 3806<br/>
-              <a class="mapbtn" target="_blank"
-                 href="https://www.google.com/maps/search/?api=1&query=Saint%20Michael%27s%20Catholic%20Church%2C%20129%20High%20St%2C%20Berwick%20VIC%203806">
-                Open Church in Google Maps
-              </a>
-            </div>
-          </div>
+          <div class="content">
+            <div class="program">
+              <div class="rowbox">
+                <div class="k">Date</div>
+                <div class="v">Sunday, 6 April</div>
+              </div>
 
-          <div class="row">
-            <div class="k">Reception</div>
-            <div class="v">
-              Golden Castle Function Centre<br/>
-              Hampton Park, Victoria<br/>
-              <a class="mapbtn" target="_blank"
-                 href="https://www.google.com/maps/search/?api=1&query=Golden%20Castle%20Function%20Centre%2C%20Hampton%20Park%2C%20Victoria">
-                Open Reception in Google Maps
-              </a>
-            </div>
-          </div>
-
-          <!-- Times + small add-to-calendar icons -->
-          <div class="row">
-            <div class="k">Times</div>
-            <div class="v" style="width:100%">
-              <div class="times-wrap">
-                <div class="time-line">
-                  <div class="time-left">
-                    <div class="time-title">Holy Mass</div>
-                    <div class="time-when"><b>3:00 PM</b></div>
-                  </div>
-                  <div class="cal-icons" aria-label="Add Holy Mass to calendar">
-                    <a class="cal-ico gold" id="gcalMass" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
-                    <button class="cal-ico" id="icsMass" type="button" title="Add to Apple Calendar (.ics)"></button>
-                  </div>
-                </div>
-
-                <div class="time-line">
-                  <div class="time-left">
-                    <div class="time-title">Reception</div>
-                    <div class="time-when"><b>6:30 PM</b></div>
-                  </div>
-                  <div class="cal-icons" aria-label="Add Reception to calendar">
-                    <a class="cal-ico gold" id="gcalReception" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
-                    <button class="cal-ico" id="icsReception" type="button" title="Add to Apple Calendar (.ics)"></button>
-                  </div>
+              <div class="rowbox">
+                <div class="k">Locations</div>
+                <div class="v">
+                  <div><b>Church:</b> Saint Michael's Catholic Church, 129 High St, Berwick VIC 3806</div>
+                  <a class="mapbtn" target="_blank" rel="noopener"
+                     href="https://www.google.com/maps/search/?api=1&query=Saint%20Michael%27s%20Catholic%20Church%2C%20129%20High%20St%2C%20Berwick%20VIC%203806">
+                    Open Church in Google Maps
+                  </a>
+                  <div style="height:8px"></div>
+                  <div><b>Reception:</b> Golden Castle Function Centre, Hampton Park, Victoria</div>
+                  <a class="mapbtn" target="_blank" rel="noopener"
+                     href="https://www.google.com/maps/search/?api=1&query=Golden%20Castle%20Function%20Centre%2C%20Hampton%20Park%2C%20Victoria">
+                    Open Reception in Google Maps
+                  </a>
                 </div>
               </div>
 
-              <div class="cal-help">Tap <b>G</b> for Google Calendar, or <b></b> to download an Apple Calendar file.</div>
+              <div class="rowbox" style="width:100%">
+                <div class="k">Times</div>
+                <div class="v" style="width:100%">
+                  <div class="timeline">
+                    <div class="titem">
+                      <div class="tleft">
+                        <div class="tname">Holy Mass</div>
+                        <div class="ttime"><b>3:00 PM</b></div>
+                      </div>
+                      <div class="cal-icons" aria-label="Add Holy Mass to calendar">
+                        <a class="cal-ico gold" id="gcalMass" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
+                        <button class="cal-ico" id="icsMass" type="button" title="Add to Apple Calendar (.ics)"></button>
+                      </div>
+                    </div>
+
+                    <div class="titem">
+                      <div class="tleft">
+                        <div class="tname">Reception</div>
+                        <div class="ttime"><b>6:30 PM</b></div>
+                      </div>
+                      <div class="cal-icons" aria-label="Add Reception to calendar">
+                        <a class="cal-ico gold" id="gcalReception" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
+                        <button class="cal-ico" id="icsReception" type="button" title="Add to Apple Calendar (.ics)"></button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="hint">Tap <b>G</b> for Google Calendar, or <b></b> to download an Apple Calendar file.</div>
+                </div>
+              </div>
+
+              <div class="toast" id="successToast">✅ <span id="successText"></span></div>
+
+              <div class="btnrow">
+                <button class="btn primary" id="openRsvpBtn" type="button">RSVP</button>
+              </div>
+
+              <div class="hint">You’ll see the RSVP form on the other side of this card.</div>
             </div>
           </div>
-        </div>
+        </section>
+
+        <!-- BACK: RSVP form -->
+        <section class="face back">
+          <div class="head">
+            <div class="title">RSVP</div>
+            <button class="btn ghost" id="backBtn" type="button" style="flex:0 0 auto; padding:10px 12px; border-radius:14px;">
+              Back
+            </button>
+          </div>
+
+          <div class="content">
+            <form id="rsvpForm" novalidate>
+              <label>
+                Family Name / Your Name *
+                <input name="familyName" required placeholder="e.g., Thomas" />
+              </label>
+
+              <label>
+                Attending? *
+                <select name="attending" id="attending" required>
+                  <option value="" selected disabled>Select…</option>
+                  <option>Yes</option>
+                  <option>No</option>
+                </select>
+              </label>
+
+              <div class="two">
+                <label>
+                  Number of Adults attending *
+                  <input type="number" id="adults" name="adults" min="0" required value="0" />
+                </label>
+
+                <label>
+                  Number of Kids (Below 14)
+                  <input type="number" id="kids" name="kids" min="0" value="0" />
+                </label>
+              </div>
+
+              <div class="actions">
+                <button class="btn primary" type="submit" id="submitBtn">Submit RSVP</button>
+                <button class="btn ghost" type="button" id="resetBtn">Clear</button>
+              </div>
+
+              <p class="note">Your RSVP will be recorded to our Google Sheet.</p>
+
+              <div class="toast" id="errToast" style="display:none; border-color: rgba(251,113,133,.45); background: rgba(251,113,133,.08);">
+                ❌ Sorry — something went wrong. Please try again.
+              </div>
+            </form>
+          </div>
+        </section>
+
       </div>
     </div>
 
@@ -574,9 +483,31 @@
   </div>
 
   <script>
-    // =======================
+    // -----------------------
+    // Flip controls
+    // -----------------------
+    const flipCard = document.getElementById("flipCard");
+    const openRsvpBtn = document.getElementById("openRsvpBtn");
+    const backBtn = document.getElementById("backBtn");
+    const flipWrap = document.getElementById("flipWrap");
+
+    function flipToRsvp() {
+      flipCard.classList.add("is-flipped");
+      // Keep the card in view on mobile
+      flipWrap.scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(() => document.querySelector("input[name='familyName']")?.focus(), 350);
+    }
+    function flipToDetails() {
+      flipCard.classList.remove("is-flipped");
+      flipWrap.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    openRsvpBtn.addEventListener("click", flipToRsvp);
+    backBtn.addEventListener("click", flipToDetails);
+
+    // -----------------------
     // RSVP -> Google Form POST
-    // =======================
+    // -----------------------
     const FORM_ACTION =
       "https://docs.google.com/forms/d/e/1FAIpQLSf26EDBCCSbnyzG39YNCY3YQ8btg2r1uUcti29MCU94SLxaJA/formResponse";
 
@@ -595,10 +526,9 @@
     const adultsInput = document.getElementById("adults");
     const kidsInput = document.getElementById("kids");
 
-    const resultBox = document.getElementById("resultBox");
-    const errBox = document.getElementById("errBox");
-    const resultText = document.getElementById("resultText");
-    const waShare = document.getElementById("waShare");
+    const successToast = document.getElementById("successToast");
+    const successText = document.getElementById("successText");
+    const errToast = document.getElementById("errToast");
 
     function show(el){ el.style.display = "block"; }
     function hide(el){ el.style.display = "none"; }
@@ -638,9 +568,7 @@
 
     resetBtn.addEventListener("click", () => {
       form.reset();
-      hide(resultBox);
-      hide(errBox);
-      form.style.display = "grid";
+      hide(errToast);
       submitBtn.disabled = false;
       submitBtn.textContent = "Submit RSVP";
       updateAttendanceRules();
@@ -648,10 +576,9 @@
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      hide(resultBox);
-      hide(errBox);
+      hide(errToast);
 
-      // Enforce rule: If attending Yes, adults must be >= 1
+      // Rule: If Yes, adults must be >= 1
       if (attendingSelect.value === "Yes" && parseInt(adultsInput.value || "0", 10) < 1) {
         adultsInput.focus();
         adultsInput.setCustomValidity("Please enter at least 1 adult.");
@@ -660,20 +587,19 @@
         return;
       }
 
-      // If attending No, ensure 0s are sent
+      // If No, force 0s
       if (attendingSelect.value === "No") {
         adultsInput.value = 0;
         kidsInput.value = 0;
       }
 
       const data = Object.fromEntries(new FormData(form).entries());
-
-      // Build a human-friendly message first (so even if submission fails, you can show error)
-      const attending = data.attending;
+      const attending = (data.attending || "").trim();
       const adults = parseInt(data.adults || "0", 10);
       const kids = parseInt(data.kids || "0", 10);
       const who = (data.familyName || "").trim();
 
+      // Prepare the success text that will show on the FRONT
       let summary = "";
       if (attending === "No") {
         summary = `Thanks${who ? " " + who : ""}! We’ve received your RSVP — <strong>not attending</strong>.`;
@@ -681,43 +607,41 @@
         summary = `Thanks${who ? " " + who : ""}! RSVP received for <strong>${adults} Adult${adults===1?"":"s"}</strong> and <strong>${kids} Kid${kids===1?"":"s"}</strong>.`;
       }
 
-      // WhatsApp share link
-      const pageUrl = window.location.href.split("#")[0];
-      const shareMsg =
-        `Tiara Liz Thomas — First Holy Communion\n` +
-        `Date: April 06\nHoly Mass: 3:00 PM\nReception: 6:30 PM\n\n` +
-        `RSVP here: ${pageUrl}`;
-      waShare.href = `https://wa.me/?text=${encodeURIComponent(shareMsg)}`;
-
-      // Prepare google form submission
+      // Prepare Google Form payload
       const fd = new FormData();
       for (const [name, entryId] of Object.entries(ENTRY_MAP)) {
         fd.append(entryId, data[name] ?? "");
       }
 
-      // UI: disable submit to prevent double clicks
       submitBtn.disabled = true;
       submitBtn.textContent = "Submitting…";
 
       try {
         await fetch(FORM_ACTION, { method: "POST", mode: "no-cors", body: fd });
 
-        // Hide the form and show the summary
-        form.style.display = "none";
-        resultText.innerHTML = `✅ ${summary}`;
-        show(resultBox);
+        // Reset the form (optional) but keeps the experience clean
+        form.reset();
+        updateAttendanceRules();
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit RSVP";
+
+        // Show success on FRONT and flip back
+        successText.innerHTML = summary;
+        show(successToast);
+
+        flipToDetails();
 
       } catch (err) {
-        show(errBox);
+        show(errToast);
         submitBtn.disabled = false;
         submitBtn.textContent = "Submit RSVP";
       }
     });
 
-    // =======================
+    // -----------------------
     // Add to Calendar (Google + Apple/ICS)
-    // =======================
-    const EVENT_YEAR = 2026;
+    // -----------------------
+    const EVENT_YEAR = 2026;            // change if needed
     const EVENT_TZ = "Australia/Melbourne";
 
     const MASS = {
@@ -809,7 +733,7 @@
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
 
-    // Wire up calendar icon links
+    // Wire up icons
     const gcalMass = document.getElementById("gcalMass");
     const gcalReception = document.getElementById("gcalReception");
     const icsMass = document.getElementById("icsMass");
