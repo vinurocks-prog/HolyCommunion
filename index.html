@@ -40,7 +40,7 @@
     }
     .wrap{width:min(980px, 100%); position:relative; isolation:isolate;}
 
-    /* Botanical overlays (subtle) */
+    /* Botanical overlays */
     .wrap::before,
     .wrap::after{
       content:"";
@@ -63,7 +63,7 @@
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%23d9b65b' stroke-opacity='.55' stroke-width='1.8'%3E%3Ccircle cx='150' cy='130' r='22'/%3E%3Cpath d='M150 82c6-18 20-30 40-34-6 20-18 34-38 42'/%3E%3Cpath d='M150 178c-6 18-20 30-40 34 6-20 18-34 38-42'/%3E%3Cpath d='M122 130c-18-6-30-20-34-40 20 6 34 18 42 38'/%3E%3Cpath d='M178 130c18 6 30 20 34 40-20-6-34-18-42-38'/%3E%3Cpath d='M110 92l-20-20M190 168l20 20M110 168l-20 20M190 92l20-20'/%3E%3C/g%3E%3C/svg%3E");
     }
 
-    /* Top header (kept compact) */
+    /* Header */
     .hero{
       border-radius:22px;
       overflow:hidden;
@@ -123,13 +123,11 @@
     }
 
     /* Flip card container */
-    .flip-wrap{
-      perspective: 1200px;
-    }
+    .flip-wrap{ perspective: 1200px; }
     .flip{
       position:relative;
       width:100%;
-      min-height: 520px;
+      min-height: 560px;
       transform-style: preserve-3d;
       transition: transform .7s cubic-bezier(.2,.8,.2,1);
     }
@@ -169,11 +167,8 @@
     }
     .content{ padding:14px 16px; }
 
-    /* Event details layout (front) */
-    .program{
-      display:grid;
-      gap:12px;
-    }
+    /* Front layout */
+    .program{ display:grid; gap:12px; }
     .rowbox{
       border:1px solid rgba(255,255,255,.08);
       background: rgba(0,0,0,.14);
@@ -187,34 +182,26 @@
     .k{ min-width:110px; color: var(--muted); font-size:13px }
     .v{ font-size:14px; line-height:1.55 }
 
-    .timeline{
-      display:grid;
-      gap:10px;
-      margin-top:2px;
-    }
-    .titem{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
+    .eventlist{ display:grid; gap:10px; margin-top:2px; }
+    .eventitem{
       border:1px solid rgba(255,255,255,.08);
       background: rgba(0,0,0,.12);
-      border-radius:14px;
-      padding:10px 10px;
-    }
-    .tleft{ display:flex; flex-direction:column; gap:2px }
-    .tname{ font-weight:900 }
-    .ttime{ color: rgba(238,242,255,.78); font-size:13px }
-
-    .cal-icons{
+      border-radius:16px;
+      padding:12px;
       display:flex;
-      align-items:center;
-      gap:8px;
-      flex:0 0 auto;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      flex-wrap:wrap;
     }
-    .cal-ico{
-      width:34px;
-      height:34px;
+    .eleft{display:grid; gap:6px; max-width: 70ch;}
+    .ename{font-weight:900}
+    .eline{color: rgba(238,242,255,.82); font-size:13px}
+    .addr{color: rgba(238,242,255,.78); font-size:13px; line-height:1.45}
+    .actionsRight{display:flex; gap:8px; align-items:center; flex:0 0 auto;}
+
+    .ico{
+      width:34px; height:34px;
       border-radius:12px;
       border:1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.06);
@@ -228,24 +215,11 @@
       font-size:16px;
       line-height:1;
     }
-    .cal-ico:hover{ filter:brightness(1.08); }
-    .cal-ico.gold{
+    .ico:hover{filter:brightness(1.08)}
+    .ico.gold{
       border-color: rgba(217,182,91,.35);
       background: rgba(217,182,91,.10);
       color: var(--gold2);
-    }
-
-    .mapbtn{
-      display:inline-block;
-      margin-top:8px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      text-decoration:none;
-      font-weight:900;
-      font-size:13px;
     }
 
     /* Buttons */
@@ -274,11 +248,22 @@
       border:1px solid rgba(255,255,255,.14);
     }
 
-    .hint{
-      margin-top:10px;
-      color: var(--muted);
+    .hint{ margin-top:10px; color: var(--muted); font-size:12px; }
+
+    /* Make the whole "RSVP pill" tappable */
+    .pill-btn{
+      border:1px solid rgba(217,182,91,.35);
+      background: rgba(217,182,91,.08);
+      color: var(--gold2);
+      padding:6px 10px;
+      border-radius:999px;
+      font-weight:800;
       font-size:12px;
+      cursor:pointer;
+      user-select:none;
+      white-space:nowrap;
     }
+    .pill-btn:hover{filter:brightness(1.05)}
 
     /* RSVP form (back) */
     form{ display:grid; gap:12px; }
@@ -300,16 +285,10 @@
     input:disabled{ opacity:.55; cursor:not-allowed; }
 
     .two{ display:grid; grid-template-columns:1fr; gap:12px; }
-
-    .actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:4px;
-    }
+    .actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:4px; }
     .note{ font-size:12px; color: var(--muted); margin:4px 0 0; }
 
-    /* Success message (shown on front after submit) */
+    /* Success message (front) */
     .toast{
       display:none;
       margin-top:12px;
@@ -327,10 +306,9 @@
     @media (min-width: 920px){
       body{ padding:22px; }
       .hero-inner{ padding: 20px 22px; }
-      .flip{ min-height: 460px; }
+      .flip{ min-height: 470px; }
       .two{ grid-template-columns: 1fr 1fr; }
     }
-
     @media (prefers-reduced-motion: reduce){
       .flip{ transition: none; }
     }
@@ -356,7 +334,8 @@
         <section class="face front" id="frontFace">
           <div class="head">
             <div class="title">Program & Details</div>
-            <div class="pill">Tap RSVP</div>
+            <!-- Changed from non-clickable pill to a button so "Tap to RSVP" works -->
+            <button class="pill-btn" id="tapRsvpPill" type="button">Tap to RSVP</button>
           </div>
 
           <div class="content">
@@ -367,50 +346,45 @@
               </div>
 
               <div class="rowbox">
-                <div class="k">Locations</div>
-                <div class="v">
-                  <div><b>Church:</b> Saint Michael's Catholic Church, 129 High St, Berwick VIC 3806</div>
-                  <a class="mapbtn" target="_blank" rel="noopener"
-                     href="https://www.google.com/maps/search/?api=1&query=Saint%20Michael%27s%20Catholic%20Church%2C%20129%20High%20St%2C%20Berwick%20VIC%203806">
-                    Open Church in Google Maps
-                  </a>
-                  <div style="height:8px"></div>
-                  <div><b>Reception:</b> Golden Castle Function Centre, Hampton Park, Victoria</div>
-                  <a class="mapbtn" target="_blank" rel="noopener"
-                     href="https://www.google.com/maps/search/?api=1&query=Golden%20Castle%20Function%20Centre%2C%20Hampton%20Park%2C%20Victoria">
-                    Open Reception in Google Maps
-                  </a>
-                </div>
-              </div>
-
-              <div class="rowbox" style="width:100%">
-                <div class="k">Times</div>
+                <div class="k">Program</div>
                 <div class="v" style="width:100%">
-                  <div class="timeline">
-                    <div class="titem">
-                      <div class="tleft">
-                        <div class="tname">Holy Mass</div>
-                        <div class="ttime"><b>3:00 PM</b></div>
+                  <div class="eventlist">
+
+                    <!-- Holy Mass combined time + location -->
+                    <div class="eventitem">
+                      <div class="eleft">
+                        <div class="ename">Holy Mass</div>
+                        <div class="eline"><b>3:00 PM</b> at Saint Michael's Catholic Church</div>
+                        <div class="addr">129 High St, Berwick VIC 3806</div>
                       </div>
-                      <div class="cal-icons" aria-label="Add Holy Mass to calendar">
-                        <a class="cal-ico gold" id="gcalMass" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
-                        <button class="cal-ico" id="icsMass" type="button" title="Add to Apple Calendar (.ics)"></button>
+                      <div class="actionsRight">
+                        <!-- Map -->
+                        <a class="ico" target="_blank" rel="noopener" title="Open in Google Maps"
+                           href="https://www.google.com/maps/search/?api=1&query=Saint%20Michael%27s%20Catholic%20Church%2C%20129%20High%20St%2C%20Berwick%20VIC%203806">📍</a>
+                        <!-- Calendar -->
+                        <a class="ico gold" id="gcalMass" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
+                        <button class="ico" id="icsMass" type="button" title="Add to Apple Calendar (.ics)"></button>
                       </div>
                     </div>
 
-                    <div class="titem">
-                      <div class="tleft">
-                        <div class="tname">Reception</div>
-                        <div class="ttime"><b>6:30 PM</b></div>
+                    <!-- Reception combined time + location -->
+                    <div class="eventitem">
+                      <div class="eleft">
+                        <div class="ename">Reception</div>
+                        <div class="eline"><b>6:30 PM</b> at Golden Castle Function Centre</div>
+                        <div class="addr">Hampton Park, Victoria</div>
                       </div>
-                      <div class="cal-icons" aria-label="Add Reception to calendar">
-                        <a class="cal-ico gold" id="gcalReception" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
-                        <button class="cal-ico" id="icsReception" type="button" title="Add to Apple Calendar (.ics)"></button>
+                      <div class="actionsRight">
+                        <a class="ico" target="_blank" rel="noopener" title="Open in Google Maps"
+                           href="https://www.google.com/maps/search/?api=1&query=Golden%20Castle%20Function%20Centre%2C%20Hampton%20Park%2C%20Victoria">📍</a>
+                        <a class="ico gold" id="gcalReception" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
+                        <button class="ico" id="icsReception" type="button" title="Add to Apple Calendar (.ics)"></button>
                       </div>
                     </div>
+
                   </div>
 
-                  <div class="hint">Tap <b>G</b> for Google Calendar, or <b></b> to download an Apple Calendar file.</div>
+                  <div class="hint">Tap 📍 for directions, <b>G</b> for Google Calendar, or <b></b> to download an Apple Calendar file.</div>
                 </div>
               </div>
 
@@ -420,7 +394,7 @@
                 <button class="btn primary" id="openRsvpBtn" type="button">RSVP</button>
               </div>
 
-              <div class="hint">You’ll see the RSVP form on the other side of this card.</div>
+              <div class="hint">After submitting, you’ll be brought back here.</div>
             </div>
           </div>
         </section>
@@ -488,12 +462,12 @@
     // -----------------------
     const flipCard = document.getElementById("flipCard");
     const openRsvpBtn = document.getElementById("openRsvpBtn");
+    const tapRsvpPill = document.getElementById("tapRsvpPill");
     const backBtn = document.getElementById("backBtn");
     const flipWrap = document.getElementById("flipWrap");
 
     function flipToRsvp() {
       flipCard.classList.add("is-flipped");
-      // Keep the card in view on mobile
       flipWrap.scrollIntoView({ behavior: "smooth", block: "start" });
       setTimeout(() => document.querySelector("input[name='familyName']")?.focus(), 350);
     }
@@ -502,7 +476,9 @@
       flipWrap.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
+    // FIX: ensure "Tap to RSVP" works + the main RSVP button works
     openRsvpBtn.addEventListener("click", flipToRsvp);
+    tapRsvpPill.addEventListener("click", flipToRsvp);
     backBtn.addEventListener("click", flipToDetails);
 
     // -----------------------
@@ -619,7 +595,7 @@
       try {
         await fetch(FORM_ACTION, { method: "POST", mode: "no-cors", body: fd });
 
-        // Reset the form (optional) but keeps the experience clean
+        // Reset form
         form.reset();
         updateAttendanceRules();
         submitBtn.disabled = false;
@@ -641,7 +617,7 @@
     // -----------------------
     // Add to Calendar (Google + Apple/ICS)
     // -----------------------
-    const EVENT_YEAR = 2026;            // change if needed
+    const EVENT_YEAR = 2026; // change if needed
     const EVENT_TZ = "Australia/Melbourne";
 
     const MASS = {
@@ -733,7 +709,7 @@
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
 
-    // Wire up icons
+    // Wire up calendar icons
     const gcalMass = document.getElementById("gcalMass");
     const gcalReception = document.getElementById("gcalReception");
     const icsMass = document.getElementById("icsMass");
