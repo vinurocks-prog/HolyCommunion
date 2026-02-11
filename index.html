@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tiara Liz Thomas — Holy Communion RSVP</title>
 
-  <!-- Elegant fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -123,22 +122,15 @@
     /* Flip container */
     .flip-wrap{ perspective: 1200px; }
     .flip{
-  position:relative;
-  width:100%;
-  min-height: 560px;
-  height: auto;
-  transform-style: preserve-3d;
-  transition: transform .7s cubic-bezier(.2,.8,.2,1);
-}
-
-.face{
-  position:absolute;
-  inset:0;
-  min-height: 100%;
-  overflow-y: auto;   /* 👈 THIS FIXES THE CUT OFF */
-}
+      position:relative;
+      width:100%;
+      min-height: 560px;
+      transform-style: preserve-3d;
+      transition: transform .7s cubic-bezier(.2,.8,.2,1);
+    }
     .flip.is-flipped{ transform: rotateY(180deg); }
 
+    /* ✅ KEY FIX: make faces flex columns and scroll the .content area */
     .face{
       position:absolute;
       inset:0;
@@ -147,6 +139,10 @@
       background: linear-gradient(180deg, var(--cardA), var(--cardB));
       box-shadow: 0 24px 70px rgba(0,0,0,.35);
       overflow:hidden;
+
+      display:flex;
+      flex-direction:column;
+
       -webkit-backface-visibility:hidden;
       backface-visibility:hidden;
       transform: translateZ(0);
@@ -157,6 +153,7 @@
       padding:14px 16px;
       border-bottom:1px solid rgba(255,255,255,.08);
       display:flex; align-items:center; justify-content:space-between; gap:12px;
+      flex:0 0 auto;
     }
     .title{
       font-family:"Playfair Display", serif;
@@ -173,7 +170,14 @@
       white-space:nowrap;
       font-weight:800;
     }
-    .content{ padding:14px 16px; }
+
+    /* ✅ KEY FIX: scrollable content area with extra bottom padding */
+    .content{
+      padding:14px 16px 28px;
+      flex:1 1 auto;
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+    }
 
     /* FRONT */
     .program{ display:grid; gap:12px; }
@@ -225,11 +229,7 @@
       line-height:1;
       padding:0;
     }
-    .ico img{
-      width:20px;
-      height:20px;
-      display:block;
-    }
+    .ico img{ width:20px; height:20px; display:block; }
     .ico.gold{
       border-color: rgba(217,182,91,.35);
       background: rgba(217,182,91,.10);
@@ -357,22 +357,21 @@
                         <div class="addr">129 High St, Berwick VIC 3806</div>
                       </div>
                       <div class="actionsRight">
-                        <!-- Google Maps icon -->
+                        <!-- Google Maps -->
                         <a class="ico stopTap" target="_blank" rel="noopener" title="Open in Google Maps"
                            href="https://www.google.com/maps/search/?api=1&query=Saint%20Michael%27s%20Catholic%20Church%2C%20129%20High%20St%2C%20Berwick%20VIC%203806">
                           <img alt="Google Maps" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%231a73e8' d='M24 4c-7.7 0-14 6.3-14 14 0 10.5 14 26 14 26s14-15.5 14-26c0-7.7-6.3-14-14-14z'/%3E%3Cpath fill='%23ea4335' d='M24 4c7.7 0 14 6.3 14 14 0 10.5-14 26-14 26V4z'/%3E%3Ccircle cx='24' cy='18' r='6.5' fill='%23fbbc05'/%3E%3Ccircle cx='24' cy='18' r='3.7' fill='%234285f4'/%3E%3C/svg%3E" />
                         </a>
 
-                        <!-- Google Calendar icon -->
+                        <!-- Google Calendar -->
                         <a class="ico gold stopTap" id="gcalMass" target="_blank" rel="noopener" title="Add to Google Calendar">
-                          <img alt="Google Calendar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23fff' fill-opacity='.08' d='M10 8h28a4 4 0 0 1 4 4v26a4 4 0 0 1-4 4H10a4 4 0 0 1-4-4V12a4 4 0 0 1 4-4z'/%3E%3Cpath fill='%234285f4' d='M38 10H10a2 2 0 0 0-2 2v26a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V12a2 2 0 0 0-2-2z'/%3E%3Cpath fill='%23fff' d='M14 18h20v18H14z'/%3E%3Cpath fill='%23ea4335' d='M16 6h4v6h-4zM28 6h4v6h-4z'/%3E%3Cpath fill='%2334a853' d='M14 18h20v4H14z'/%3E%3Cpath fill='%23fbbc05' d='M18 26h12v8H18z'/%3E%3Cpath fill='%234285f4' d='M20.5 29.3l1.6 1.6 4-4 1.2 1.2-5.2 5.2-2.8-2.8z'/%3E%3C/svg%3E" />
+                          <img alt="Google Calendar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%234285f4' d='M38 10H10a2 2 0 0 0-2 2v26a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V12a2 2 0 0 0-2-2z'/%3E%3Cpath fill='%23fff' d='M14 18h20v18H14z'/%3E%3Cpath fill='%23ea4335' d='M16 6h4v6h-4zM28 6h4v6h-4z'/%3E%3Cpath fill='%2334a853' d='M14 18h20v4H14z'/%3E%3Cpath fill='%23fbbc05' d='M18 26h12v8H18z'/%3E%3Cpath fill='%234285f4' d='M20.5 29.3l1.6 1.6 4-4 1.2 1.2-5.2 5.2-2.8-2.8z'/%3E%3C/svg%3E" />
                         </a>
 
-                        <!-- Apple calendar (.ics) -->
-                        <button class="ico stopTap" id="icsMass" type="button" title="Add to Apple Calendar">
-  <img alt="Apple Calendar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='8' y='10' width='32' height='30' rx='4' fill='%23ffffff'/%3E%3Crect x='8' y='10' width='32' height='8' fill='%23ff3b30'/%3E%3Ccircle cx='16' cy='14' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='32' cy='14' r='1.5' fill='%23ffffff'/%3E%3Cpath d='M24 24c-2 0-3 1.5-3 3.2 0 2.2 3 4.8 3 4.8s3-2.6 3-4.8c0-1.7-1-3.2-3-3.2z' fill='%23000000'/%3E%3C/svg%3E" />
-</button>
-
+                        <!-- Apple Calendar -->
+                        <button class="ico stopTap" id="icsMass" type="button" title="Add to Apple Calendar (.ics)">
+                          <img alt="Apple Calendar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='8' y='10' width='32' height='30' rx='5' fill='%23ffffff'/%3E%3Crect x='8' y='10' width='32' height='8' rx='5' fill='%23ff3b30'/%3E%3Crect x='8' y='16' width='32' height='4' fill='%23ff3b30'/%3E%3Ccircle cx='16' cy='14' r='1.6' fill='%23ffffff'/%3E%3Ccircle cx='32' cy='14' r='1.6' fill='%23ffffff'/%3E%3Cpath d='M24 24c-2.2 0-3.5 1.6-3.5 3.4 0 2.4 3.5 5.3 3.5 5.3s3.5-2.9 3.5-5.3c0-1.8-1.3-3.4-3.5-3.4z' fill='%23111111'/%3E%3C/svg%3E"/>
+                        </button>
                       </div>
                     </div>
 
@@ -389,13 +388,12 @@
                         </a>
 
                         <a class="ico gold stopTap" id="gcalReception" target="_blank" rel="noopener" title="Add to Google Calendar">
-                          <img alt="Google Calendar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23fff' fill-opacity='.08' d='M10 8h28a4 4 0 0 1 4 4v26a4 4 0 0 1-4 4H10a4 4 0 0 1-4-4V12a4 4 0 0 1 4-4z'/%3E%3Cpath fill='%234285f4' d='M38 10H10a2 2 0 0 0-2 2v26a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V12a2 2 0 0 0-2-2z'/%3E%3Cpath fill='%23fff' d='M14 18h20v18H14z'/%3E%3Cpath fill='%23ea4335' d='M16 6h4v6h-4zM28 6h4v6h-4z'/%3E%3Cpath fill='%2334a853' d='M14 18h20v4H14z'/%3E%3Cpath fill='%23fbbc05' d='M18 26h12v8H18z'/%3E%3Cpath fill='%234285f4' d='M20.5 29.3l1.6 1.6 4-4 1.2 1.2-5.2 5.2-2.8-2.8z'/%3E%3C/svg%3E" />
+                          <img alt="Google Calendar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%234285f4' d='M38 10H10a2 2 0 0 0-2 2v26a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V12a2 2 0 0 0-2-2z'/%3E%3Cpath fill='%23fff' d='M14 18h20v18H14z'/%3E%3Cpath fill='%23ea4335' d='M16 6h4v6h-4zM28 6h4v6h-4z'/%3E%3Cpath fill='%2334a853' d='M14 18h20v4H14z'/%3E%3Cpath fill='%23fbbc05' d='M18 26h12v8H18z'/%3E%3Cpath fill='%234285f4' d='M20.5 29.3l1.6 1.6 4-4 1.2 1.2-5.2 5.2-2.8-2.8z'/%3E%3C/svg%3E" />
                         </a>
 
-                        <button class="ico stopTap" id="icsMass" type="button" title="Add to Apple Calendar">
-  <img alt="Apple Calendar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='8' y='10' width='32' height='30' rx='4' fill='%23ffffff'/%3E%3Crect x='8' y='10' width='32' height='8' fill='%23ff3b30'/%3E%3Ccircle cx='16' cy='14' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='32' cy='14' r='1.5' fill='%23ffffff'/%3E%3Cpath d='M24 24c-2 0-3 1.5-3 3.2 0 2.2 3 4.8 3 4.8s3-2.6 3-4.8c0-1.7-1-3.2-3-3.2z' fill='%23000000'/%3E%3C/svg%3E" />
-</button>
-
+                        <button class="ico stopTap" id="icsReception" type="button" title="Add to Apple Calendar (.ics)">
+                          <img alt="Apple Calendar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='8' y='10' width='32' height='30' rx='5' fill='%23ffffff'/%3E%3Crect x='8' y='10' width='32' height='8' rx='5' fill='%23ff3b30'/%3E%3Crect x='8' y='16' width='32' height='4' fill='%23ff3b30'/%3E%3Ccircle cx='16' cy='14' r='1.6' fill='%23ffffff'/%3E%3Ccircle cx='32' cy='14' r='1.6' fill='%23ffffff'/%3E%3Cpath d='M24 24c-2.2 0-3.5 1.6-3.5 3.4 0 2.4 3.5 5.3 3.5 5.3s3.5-2.9 3.5-5.3c0-1.8-1.3-3.4-3.5-3.4z' fill='%23111111'/%3E%3C/svg%3E"/>
+                        </button>
                       </div>
                     </div>
 
@@ -464,7 +462,6 @@
     </div>
   </div>
 
-  <!-- Toaster -->
   <div class="toaster" id="toaster">✅ <span id="toasterText"></span></div>
 
   <script>
@@ -503,7 +500,7 @@
       flipToDetails();
     });
 
-    // Prevent icon/button clicks bubbling (so they don't flip)
+    // Prevent icon/button clicks bubbling
     document.querySelectorAll(".stopTap").forEach(el => {
       el.addEventListener("click", (e) => e.stopPropagation());
     });
@@ -531,11 +528,9 @@
 
     const errBox = document.getElementById("errBox");
 
-    // Inline confirm on RSVP side
     const rsvpInlineConfirm = document.getElementById("rsvpInlineConfirm");
     const rsvpInlineConfirmText = document.getElementById("rsvpInlineConfirmText");
 
-    // Toaster
     const toaster = document.getElementById("toaster");
     const toasterText = document.getElementById("toasterText");
     let toasterTimer = null;
@@ -583,25 +578,26 @@
     attendingSelect.addEventListener("change", updateAttendanceRules);
     updateAttendanceRules();
 
-    // ---- Session persistence (sessionStorage)
+    // Session persistence
     const SESSION_KEY = "tiara_hc_rsvp_session_confirmation_v1";
 
     function saveSessionConfirmation(payload) {
       try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(payload)); } catch {}
     }
-
     function loadSessionConfirmation() {
       try {
         const raw = sessionStorage.getItem(SESSION_KEY);
         return raw ? JSON.parse(raw) : null;
       } catch { return null; }
     }
-
     function showSessionConfirmationOnRsvpSide() {
       const conf = loadSessionConfirmation();
       if (!conf) { hide(rsvpInlineConfirm); return; }
       rsvpInlineConfirmText.innerHTML = conf.html || conf.plain;
       show(rsvpInlineConfirm);
+
+      // ✅ ensure it's visible (scroll within the RSVP content area)
+      setTimeout(() => rsvpInlineConfirm.scrollIntoView({ behavior: "smooth", block: "nearest" }), 100);
     }
     showSessionConfirmationOnRsvpSide();
 
@@ -619,7 +615,6 @@
       e.preventDefault();
       hide(errBox);
 
-      // Rule: If Yes, adults must be >= 1
       if (attendingSelect.value === "Yes" && parseInt(adultsInput.value || "0", 10) < 1) {
         adultsInput.focus();
         adultsInput.setCustomValidity("Please enter at least 1 adult.");
@@ -628,7 +623,6 @@
         return;
       }
 
-      // If No, force 0s
       if (attendingSelect.value === "No") {
         adultsInput.value = 0;
         kidsInput.value = 0;
@@ -651,10 +645,8 @@
         summaryPlain = `Thanks${who ? " " + who : ""}! RSVP received for ${adults} Adult${adults===1?"":"s"} and ${kids} Kid${kids===1?"":"s"}.`;
       }
 
-      // Save in session so flipping back shows it
       saveSessionConfirmation({ html: summaryHtml, plain: summaryPlain, ts: Date.now() });
 
-      // Prepare Google Form payload
       const fd = new FormData();
       for (const [name, entryId] of Object.entries(ENTRY_MAP)) {
         fd.append(entryId, data[name] ?? "");
