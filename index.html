@@ -15,10 +15,8 @@
       --bg:#070a12;
       --text:#eef2ff;
       --muted: rgba(238,242,255,.72);
-      --stroke: rgba(255,255,255,.12);
       --gold:#d9b65b;
       --gold2:#f3e3b2;
-      --accent:#7dd3fc;
 
       --cardA: rgba(255,255,255,.07);
       --cardB: rgba(255,255,255,.03);
@@ -122,7 +120,7 @@
       margin-top:8px;
     }
 
-    /* Flip card container */
+    /* Flip container */
     .flip-wrap{ perspective: 1200px; }
     .flip{
       position:relative;
@@ -136,14 +134,18 @@
     .face{
       position:absolute;
       inset:0;
-      backface-visibility:hidden;
       border-radius:22px;
       border:1px solid rgba(255,255,255,.10);
       background: linear-gradient(180deg, var(--cardA), var(--cardB));
       box-shadow: 0 24px 70px rgba(0,0,0,.35);
       overflow:hidden;
+
+      /* iOS/Safari reliability */
+      -webkit-backface-visibility:hidden;
+      backface-visibility:hidden;
+      transform: translateZ(0);
     }
-    .face.back{ transform: rotateY(180deg); }
+    .face.back{ transform: rotateY(180deg) translateZ(0); }
 
     .head{
       padding:14px 16px;
@@ -167,8 +169,16 @@
     }
     .content{ padding:14px 16px; }
 
-    /* Front layout */
+    /* FRONT */
     .program{ display:grid; gap:12px; }
+
+    /* Make the front card clearly tappable */
+    .frontTap{
+      cursor:pointer;
+      user-select:none;
+    }
+    .frontTap:active{ transform: scale(.998); }
+
     .rowbox{
       border:1px solid rgba(255,255,255,.08);
       background: rgba(0,0,0,.14);
@@ -222,50 +232,22 @@
       color: var(--gold2);
     }
 
-    /* Buttons */
-    .btnrow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:12px;
-    }
-    .btn{
-      cursor:pointer;
-      border:0;
-      border-radius:16px;
-      padding:12px 14px;
-      font-weight:900;
-      font-size:14px;
-      flex:1 1 160px;
-    }
-    .btn.primary{
-      background: linear-gradient(180deg, rgba(217,182,91,1), rgba(217,182,91,.88));
-      color:#1a1406;
-    }
-    .btn.ghost{
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      border:1px solid rgba(255,255,255,.14);
-    }
-
     .hint{ margin-top:10px; color: var(--muted); font-size:12px; }
 
-    /* Make the whole "RSVP pill" tappable */
-    .pill-btn{
-      border:1px solid rgba(217,182,91,.35);
-      background: rgba(217,182,91,.08);
-      color: var(--gold2);
-      padding:6px 10px;
-      border-radius:999px;
-      font-weight:800;
-      font-size:12px;
-      cursor:pointer;
-      user-select:none;
-      white-space:nowrap;
+    /* Success banner on FRONT */
+    .toast{
+      display:none;
+      margin-top:12px;
+      padding:12px 12px;
+      border-radius:16px;
+      border:1px solid rgba(125,211,252,.30);
+      background: rgba(125,211,252,.08);
+      color: var(--text);
+      font-size:14px;
     }
-    .pill-btn:hover{filter:brightness(1.05)}
+    .toast strong{ color: var(--gold2); }
 
-    /* RSVP form (back) */
+    /* BACK (RSVP form) */
     form{ display:grid; gap:12px; }
     label{ display:grid; gap:6px; font-size:13px; color: var(--muted); }
     input, select{
@@ -286,20 +268,31 @@
 
     .two{ display:grid; grid-template-columns:1fr; gap:12px; }
     .actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:4px; }
+    .btn{
+      cursor:pointer;
+      border:0;
+      border-radius:16px;
+      padding:12px 14px;
+      font-weight:900;
+      font-size:14px;
+      flex:1 1 160px;
+    }
+    .btn.primary{
+      background: linear-gradient(180deg, rgba(217,182,91,1), rgba(217,182,91,.88));
+      color:#1a1406;
+    }
+    .btn.ghost{
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border:1px solid rgba(255,255,255,.14);
+    }
     .note{ font-size:12px; color: var(--muted); margin:4px 0 0; }
 
-    /* Success message (front) */
-    .toast{
+    .toast.err{
       display:none;
-      margin-top:12px;
-      padding:12px 12px;
-      border-radius:16px;
-      border:1px solid rgba(125,211,252,.30);
-      background: rgba(125,211,252,.08);
-      color: var(--text);
-      font-size:14px;
+      border-color: rgba(251,113,133,.45);
+      background: rgba(251,113,133,.08);
     }
-    .toast strong{ color: var(--gold2); }
 
     footer{ margin:14px 0 0; text-align:center; color: rgba(169,179,199,.8); font-size:12px; }
 
@@ -322,7 +315,7 @@
       <div class="hero-inner">
         <div class="badge">✦ First Holy Communion</div>
         <h1 class="h-title">Tiara Liz Thomas</h1>
-        <p class="h-sub">April 06 • A day of faith, grace, and celebration.</p>
+        <p class="h-sub">Monday, 06 April 2026 • A day of faith, grace, and celebration.</p>
         <div class="gold-divider"></div>
       </div>
     </section>
@@ -330,19 +323,18 @@
     <div class="flip-wrap" id="flipWrap">
       <div class="flip" id="flipCard" aria-live="polite">
 
-        <!-- FRONT: Program + Event details -->
-        <section class="face front" id="frontFace">
+        <!-- FRONT: Details (whole card tappable) -->
+        <section class="face front frontTap" id="frontFace" role="button" tabindex="0" aria-label="Tap to open RSVP">
           <div class="head">
             <div class="title">Program & Details</div>
-            <!-- Changed from non-clickable pill to a button so "Tap to RSVP" works -->
-            <button class="pill-btn" id="tapRsvpPill" type="button">Tap to RSVP</button>
+            <div class="pill">Tap anywhere to RSVP</div>
           </div>
 
           <div class="content">
             <div class="program">
               <div class="rowbox">
                 <div class="k">Date</div>
-                <div class="v">Sunday, 6 April</div>
+                <div class="v">Monday, 06 April 2026</div>
               </div>
 
               <div class="rowbox">
@@ -350,7 +342,6 @@
                 <div class="v" style="width:100%">
                   <div class="eventlist">
 
-                    <!-- Holy Mass combined time + location -->
                     <div class="eventitem">
                       <div class="eleft">
                         <div class="ename">Holy Mass</div>
@@ -358,16 +349,13 @@
                         <div class="addr">129 High St, Berwick VIC 3806</div>
                       </div>
                       <div class="actionsRight">
-                        <!-- Map -->
-                        <a class="ico" target="_blank" rel="noopener" title="Open in Google Maps"
+                        <a class="ico stopTap" target="_blank" rel="noopener" title="Open in Google Maps"
                            href="https://www.google.com/maps/search/?api=1&query=Saint%20Michael%27s%20Catholic%20Church%2C%20129%20High%20St%2C%20Berwick%20VIC%203806">📍</a>
-                        <!-- Calendar -->
-                        <a class="ico gold" id="gcalMass" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
-                        <button class="ico" id="icsMass" type="button" title="Add to Apple Calendar (.ics)"></button>
+                        <a class="ico gold stopTap" id="gcalMass" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
+                        <button class="ico stopTap" id="icsMass" type="button" title="Add to Apple Calendar (.ics)"></button>
                       </div>
                     </div>
 
-                    <!-- Reception combined time + location -->
                     <div class="eventitem">
                       <div class="eleft">
                         <div class="ename">Reception</div>
@@ -375,35 +363,32 @@
                         <div class="addr">Hampton Park, Victoria</div>
                       </div>
                       <div class="actionsRight">
-                        <a class="ico" target="_blank" rel="noopener" title="Open in Google Maps"
+                        <a class="ico stopTap" target="_blank" rel="noopener" title="Open in Google Maps"
                            href="https://www.google.com/maps/search/?api=1&query=Golden%20Castle%20Function%20Centre%2C%20Hampton%20Park%2C%20Victoria">📍</a>
-                        <a class="ico gold" id="gcalReception" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
-                        <button class="ico" id="icsReception" type="button" title="Add to Apple Calendar (.ics)"></button>
+                        <a class="ico gold stopTap" id="gcalReception" target="_blank" rel="noopener" title="Add to Google Calendar">G</a>
+                        <button class="ico stopTap" id="icsReception" type="button" title="Add to Apple Calendar (.ics)"></button>
                       </div>
                     </div>
 
                   </div>
 
-                  <div class="hint">Tap 📍 for directions, <b>G</b> for Google Calendar, or <b></b> to download an Apple Calendar file.</div>
+                  <div class="hint">Tip: Tap 📍 for directions, <b>G</b> for Google Calendar, or <b></b> to download an Apple Calendar file.</div>
                 </div>
               </div>
 
+              <!-- Success message shown AFTER RSVP and also when user comes back later -->
               <div class="toast" id="successToast">✅ <span id="successText"></span></div>
 
-              <div class="btnrow">
-                <button class="btn primary" id="openRsvpBtn" type="button">RSVP</button>
-              </div>
-
-              <div class="hint">After submitting, you’ll be brought back here.</div>
+              <div class="hint">After RSVP, your confirmation will stay visible here.</div>
             </div>
           </div>
         </section>
 
         <!-- BACK: RSVP form -->
-        <section class="face back">
+        <section class="face back" id="backFace">
           <div class="head">
             <div class="title">RSVP</div>
-            <button class="btn ghost" id="backBtn" type="button" style="flex:0 0 auto; padding:10px 12px; border-radius:14px;">
+            <button class="btn ghost stopTap" id="backBtn" type="button" style="flex:0 0 auto; padding:10px 12px; border-radius:14px;">
               Back
             </button>
           </div>
@@ -443,9 +428,14 @@
 
               <p class="note">Your RSVP will be recorded to our Google Sheet.</p>
 
-              <div class="toast" id="errToast" style="display:none; border-color: rgba(251,113,133,.45); background: rgba(251,113,133,.08);">
-                ❌ Sorry — something went wrong. Please try again.
+              <div class="toast err" id="errToast">❌ Sorry — something went wrong. Please try again.</div>
+
+              <!-- Persisted confirmation shown on RSVP page if already submitted -->
+              <div class="toast" id="rsvpConfirm" style="display:none; border-color: rgba(217,182,91,.35); background: rgba(217,182,91,.10);">
+                ✅ <span id="rsvpConfirmText"></span>
               </div>
+
+              <div class="hint">If you have already RSVPed, your confirmation will show here.</div>
             </form>
           </div>
         </section>
@@ -453,6 +443,7 @@
       </div>
     </div>
 
+    <footer>Tip: share this RSVP page link on WhatsApp / SMS / email.</footer>
   </div>
 
   <script>
@@ -460,8 +451,7 @@
     // Flip controls
     // -----------------------
     const flipCard = document.getElementById("flipCard");
-    const openRsvpBtn = document.getElementById("openRsvpBtn");
-    const tapRsvpPill = document.getElementById("tapRsvpPill");
+    const frontFace = document.getElementById("frontFace");
     const backBtn = document.getElementById("backBtn");
     const flipWrap = document.getElementById("flipWrap");
 
@@ -469,16 +459,36 @@
       flipCard.classList.add("is-flipped");
       flipWrap.scrollIntoView({ behavior: "smooth", block: "start" });
       setTimeout(() => document.querySelector("input[name='familyName']")?.focus(), 350);
+      showPersistedConfirmation(); // show message on RSVP side if already submitted
     }
     function flipToDetails() {
       flipCard.classList.remove("is-flipped");
       flipWrap.scrollIntoView({ behavior: "smooth", block: "start" });
+      // Ensure toast is visible after flip back
+      setTimeout(() => document.getElementById("successToast")?.scrollIntoView({behavior:"smooth", block:"nearest"}), 250);
     }
 
-    // FIX: ensure "Tap to RSVP" works + the main RSVP button works
-    openRsvpBtn.addEventListener("click", flipToRsvp);
-    tapRsvpPill.addEventListener("click", flipToRsvp);
-    backBtn.addEventListener("click", flipToDetails);
+    // Make whole front card tappable, but NOT the icons/links/buttons
+    frontFace.addEventListener("click", (e) => {
+      if (e.target.closest(".stopTap")) return;
+      flipToRsvp();
+    });
+    frontFace.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        flipToRsvp();
+      }
+    });
+
+    backBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      flipToDetails();
+    });
+
+    // Prevent icon clicks bubbling (so they don't flip the card)
+    document.querySelectorAll(".stopTap").forEach(el => {
+      el.addEventListener("click", (e) => e.stopPropagation());
+    });
 
     // -----------------------
     // RSVP -> Google Form POST
@@ -504,6 +514,9 @@
     const successToast = document.getElementById("successToast");
     const successText = document.getElementById("successText");
     const errToast = document.getElementById("errToast");
+
+    const rsvpConfirm = document.getElementById("rsvpConfirm");
+    const rsvpConfirmText = document.getElementById("rsvpConfirmText");
 
     function show(el){ el.style.display = "block"; }
     function hide(el){ el.style.display = "none"; }
@@ -541,12 +554,54 @@
     attendingSelect.addEventListener("change", updateAttendanceRules);
     updateAttendanceRules();
 
-    resetBtn.addEventListener("click", () => {
+    // ---- Persisted confirmation handling (localStorage)
+    const STORAGE_KEY = "tiara_holy_communion_rsvp_confirmation_v1";
+
+    function saveConfirmation(summaryTextPlain, summaryHtml) {
+      const payload = {
+        plain: summaryTextPlain,
+        html: summaryHtml,
+        ts: Date.now()
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    }
+
+    function loadConfirmation() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        return JSON.parse(raw);
+      } catch { return null; }
+    }
+
+    function showPersistedConfirmation() {
+      const conf = loadConfirmation();
+      if (!conf) {
+        hide(rsvpConfirm);
+        return;
+      }
+      rsvpConfirmText.innerHTML = conf.html || conf.plain;
+      show(rsvpConfirm);
+    }
+
+    function showConfirmationOnDetails() {
+      const conf = loadConfirmation();
+      if (!conf) return;
+      successText.innerHTML = conf.html || conf.plain;
+      show(successToast);
+    }
+
+    // Show confirmation on load (details side)
+    showConfirmationOnDetails();
+
+    resetBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
       form.reset();
       hide(errToast);
       submitBtn.disabled = false;
       submitBtn.textContent = "Submit RSVP";
       updateAttendanceRules();
+      showPersistedConfirmation();
     });
 
     form.addEventListener("submit", async (e) => {
@@ -574,13 +629,20 @@
       const kids = parseInt(data.kids || "0", 10);
       const who = (data.familyName || "").trim();
 
-      // Prepare the success text that will show on the FRONT
-      let summary = "";
+      // Build confirmation summary
+      let summaryHtml = "";
+      let summaryPlain = "";
+
       if (attending === "No") {
-        summary = `Thanks${who ? " " + who : ""}! We’ve received your RSVP — <strong>not attending</strong>.`;
+        summaryHtml = `Thanks${who ? " " + who : ""}! We’ve received your RSVP — <strong>not attending</strong>.`;
+        summaryPlain = `Thanks${who ? " " + who : ""}! We’ve received your RSVP — not attending.`;
       } else {
-        summary = `Thanks${who ? " " + who : ""}! RSVP received for <strong>${adults} Adult${adults===1?"":"s"}</strong> and <strong>${kids} Kid${kids===1?"":"s"}</strong>.`;
+        summaryHtml = `Thanks${who ? " " + who : ""}! RSVP received for <strong>${adults} Adult${adults===1?"":"s"}</strong> and <strong>${kids} Kid${kids===1?"":"s"}</strong>.`;
+        summaryPlain = `Thanks${who ? " " + who : ""}! RSVP received for ${adults} Adult${adults===1?"":"s"} and ${kids} Kid${kids===1?"":"s"}.`;
       }
+
+      // Save locally so if user opens RSVP again, they see it
+      saveConfirmation(summaryPlain, summaryHtml);
 
       // Prepare Google Form payload
       const fd = new FormData();
@@ -594,16 +656,20 @@
       try {
         await fetch(FORM_ACTION, { method: "POST", mode: "no-cors", body: fd });
 
-        // Reset form
+        // Reset form fields (optional) but keep confirmation persisted
         form.reset();
         updateAttendanceRules();
         submitBtn.disabled = false;
         submitBtn.textContent = "Submit RSVP";
 
-        // Show success on FRONT and flip back
-        successText.innerHTML = summary;
+        // Show confirmation on BOTH sides
+        successText.innerHTML = summaryHtml;
         show(successToast);
 
+        rsvpConfirmText.innerHTML = summaryHtml;
+        show(rsvpConfirm);
+
+        // Flip back to details
         flipToDetails();
 
       } catch (err) {
@@ -616,7 +682,7 @@
     // -----------------------
     // Add to Calendar (Google + Apple/ICS)
     // -----------------------
-    const EVENT_YEAR = 2026; // change if needed
+    const EVENT_YEAR = 2026;
     const EVENT_TZ = "Australia/Melbourne";
 
     const MASS = {
@@ -717,8 +783,8 @@
     gcalMass.href = buildGoogleUrl(MASS);
     gcalReception.href = buildGoogleUrl(RECEPTION);
 
-    icsMass.addEventListener("click", () => downloadIcs(MASS, "Tiara-Holy-Mass.ics"));
-    icsReception.addEventListener("click", () => downloadIcs(RECEPTION, "Tiara-Reception.ics"));
+    icsMass.addEventListener("click", (e) => { e.stopPropagation(); downloadIcs(MASS, "Tiara-Holy-Mass.ics"); });
+    icsReception.addEventListener("click", (e) => { e.stopPropagation(); downloadIcs(RECEPTION, "Tiara-Reception.ics"); });
   </script>
 </body>
 </html>
