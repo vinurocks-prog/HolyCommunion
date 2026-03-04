@@ -27,13 +27,24 @@
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--text);
       background:
-        radial-gradient(1200px 700px at 15% 10%, rgba(217,182,91,.16), transparent 55%),
-        radial-gradient(900px 600px at 85% 0%, rgba(125,211,252,.10), transparent 60%),
-        var(--bg);
+        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+        url("tiara-bg.jpg") center / cover no-repeat fixed;
       min-height:100vh;
-      padding:18px;
+      padding:18px 18px 64px; /* extra bottom space for credits */
       display:flex;
+      align-items:center;
       justify-content:center;
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:
+        radial-gradient(1200px 700px at 15% 10%, rgba(217,182,91,.18), transparent 55%),
+        radial-gradient(900px 600px at 85% 0%, rgba(125,211,252,.12), transparent 60%),
+        rgba(8,12,18,.72);
+      z-index:-2;
+      pointer-events:none;
     }
     .wrap{width:min(980px, 100%); position:relative; isolation:isolate;}
 
@@ -298,6 +309,43 @@
       .flip{ min-height: 470px; }
       .two{ grid-template-columns: 1fr 1fr; }
     }
+  
+    .credits{
+      width:min(980px, 100%);
+      margin:14px auto 0;
+      text-align:center;
+      font-size:12px;
+      color:rgba(255,255,255,.85);
+    }
+    .credits a{
+      color:rgba(255,255,255,.95);
+      text-decoration:underline;
+      text-underline-offset:3px;
+    }
+    .credits a:hover{ opacity:.9; }
+    .credits .dot{ margin:0 8px; opacity:.7; }
+
+    .photo-credit{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:10px;
+      text-align:center;
+      font-size:13px;
+      color:rgba(255,255,255,0.85);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      z-index:50;
+      padding:0 12px;
+    }
+    .photo-credit a{
+      color:#fff;
+      text-decoration:none;
+      font-weight:700;
+    }
+    .photo-credit a:hover{
+      text-decoration:underline;
+    }
+
   </style>
 </head>
 
@@ -388,7 +436,7 @@
 
         <section class="face back" id="backFace">
           <div class="head">
-            <div class="title">RSVP</div>
+            <div class="title" id="rsvpTitle">RSVP</div>
             <button class="btn ghost stopTap" id="backBtn" type="button" style="flex:0 0 auto; padding:10px 12px; border-radius:14px;">
               Back
             </button>
@@ -396,6 +444,10 @@
 
           <div class="content">
             <form id="rsvpForm" novalidate>
+
+              <div class="inline-confirm" id="rsvpClosed" style="display:none; border-color: rgba(217,182,91,.55); background: rgba(217,182,91,.10);">
+                ⛔ <strong>RSVP is now closed.</strong> If you need to update your response, please contact us.
+              </div>
               <label>
                 Family Name / Your Name *
                 <input name="familyName" required placeholder="e.g., Thomas" />
@@ -441,6 +493,14 @@
       </div>
     </div>
   </div>
+
+
+  <footer class="credits">
+    <span>Credits:</span>
+    <a href="https://www.instagram.com/shinstv" target="_blank" rel="noopener noreferrer">@shinstv</a>
+    <span class="dot">•</span>
+    <a href="https://www.instagram.com/kappacreativestudio" target="_blank" rel="noopener noreferrer">@kappacreativestudio</a>
+  </footer>
 
   <div class="toaster" id="toaster">✅ <span id="toasterText"></span></div>
 
@@ -503,12 +563,47 @@
     const rsvpInlineConfirm = document.getElementById("rsvpInlineConfirm");
     const rsvpInlineConfirmText = document.getElementById("rsvpInlineConfirmText");
 
+    const rsvpClosedBox = document.getElementById("rsvpClosed");
+    const rsvpTitle = document.getElementById("rsvpTitle");
+
+    function applyRsvpClosedState(){
+      if (RSVP_OPEN) {
+        hide(rsvpClosedBox);
+        if (rsvpTitle) rsvpTitle.textContent = "RSVP";
+        return;
+      }
+      // Show closed message
+      show(rsvpClosedBox);
+      if (rsvpTitle) rsvpTitle.textContent = "RSVP (Closed)";
+
+      // Disable all form controls
+      Array.from(form.elements).forEach((el) => {
+        if (el && (el.tagName === "INPUT" || el.tagName === "SELECT" || el.tagName === "TEXTAREA" || el.tagName === "BUTTON")) {
+          el.disabled = true;
+        }
+      });
+
+      // Keep the Back button usable (it is outside the form), and allow scrolling
+      // Hide action buttons area if present
+      const actions = form.querySelector(".actions");
+      if (actions) actions.style.display = "none";
+    }
+
+
     const toaster = document.getElementById("toaster");
     const toasterText = document.getElementById("toasterText");
     let toasterTimer = null;
 
-    function show(el){ el.style.display = "block"; }
-    function hide(el){ el.style.display = "none"; }
+    // Toggle RSVP availability
+    const RSVP_OPEN = false; // set to true to re-open RSVP
+
+
+    function show(el){ if(!el) return; el.style.display = "block"; }
+    function hide(el){ if(!el) return; el.style.display = "none"; }
+
+    // Apply RSVP open/closed UI state
+    applyRsvpClosedState();
+
 
     function showToast(html) {
       toasterText.innerHTML = html;
@@ -583,6 +678,11 @@
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       hide(errBox);
+      if (!RSVP_OPEN) {
+        // RSVP closed — do nothing
+        return;
+      }
+
 
       const attending = (attendingSelect.value || "").trim();
 
@@ -734,5 +834,12 @@
     document.getElementById("icsMass").addEventListener("click", (e) => { e.stopPropagation(); downloadIcs(MASS, "Tiara-Holy-Mass.ics"); });
     document.getElementById("icsReception").addEventListener("click", (e) => { e.stopPropagation(); downloadIcs(RECEPTION, "Tiara-Reception.ics"); });
   </script>
+
+  <footer class="photo-credit">
+    Photography by <a href="https://www.instagram.com/shinstv" target="_blank" rel="noopener noreferrer">@shinstv</a>
+    &nbsp;|&nbsp;
+    Videography by <a href="https://www.instagram.com/kappacreativestudio" target="_blank" rel="noopener noreferrer">@kappacreativestudio</a>
+  </footer>
+
 </body>
 </html>
